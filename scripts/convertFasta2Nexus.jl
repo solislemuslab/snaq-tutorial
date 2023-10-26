@@ -22,7 +22,7 @@ end
 
 verbose = false ## only if we want to see the lines as are written
 
-for(file in files)
+for file in files 
     @show file
     f = open(string("../data/fasta-alignments/",file))
     p = split(file,".")
@@ -31,19 +31,22 @@ for(file in files)
     taxtotal = 0
     taxa = String[]
     seq = String[]
-    readNumTaxa = 0
-    readSeqLength = 0
+    seqlength = 0
 
     for line in eachline(f)
         verbose && @show line
         
-        if(contains(line,">"))
+        if contains(line,">")
             name = split(line,">")[2]
             push!(taxa,name)
             taxtotal += 1
         else
             push!(seq,line)
+            if seqlength == 0
+                seqlength = length(line)
+            end
         end
+    end
     close(f)
 
     length(seq) == taxtotal || error("Something wrong when reading the fasta file. I found $(length(seq)) sequences, and there should be $taxtotal")
@@ -54,7 +57,7 @@ for(file in files)
     for i in 1:taxtotal
         write(g,"$(taxa[i])\n")
     end
-    write(g,";\nend;\n\nbegin characters;\ndimensions nchar=$readSeqLength;\nformat datatype=dna gap=- missing=?;\nmatrix\n")
+    write(g,";\nend;\n\nbegin characters;\ndimensions nchar=$seqlength;\nformat datatype=dna gap=- missing=?;\nmatrix\n")
     for i in 1:taxtotal
         write(g,"$(taxa[i])\t\t")
         write(g,"$(seq[i])\n")

@@ -1,8 +1,28 @@
 ---
 layout: default
-title: Installing dependencies via Docker
+title: Installing dependencies and downloading data
 nav_order: 1
 ---
+
+# Downloading data via git clone
+
+You should navigate to the path where you want to have the data, and clone this repository:
+
+```
+git clone https://github.com/solislemuslab/snaq-tutorial.git
+```
+
+This will download the learning materials and the data (in folder [`data`](https://github.com/solislemuslab/snaq-tutorial/tree/main/data)).
+
+We will get inside the folder with 
+```
+cd snaq-tutorial
+cd data
+```
+
+If you are using your own data, simply navigate to the folder where you have your data.
+
+# Installing dependencies
 
 There are two options to install the dependencies: 1) via Docker or 2) manually. We describe both approaches next.
 
