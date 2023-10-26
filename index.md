@@ -2,7 +2,78 @@
 
 ## 0. Installing Dependencies via Docker
 
-## 1. Input data: Multi-locus sequences in nexus files
+To run a Docker container, you need two things: a DockerHub account and a Docker Engine.
+
+### 0.1 Get a DockerHub account
+
+To register for a DockerHub account, go to [DockerHub website](https://hub.docker.com/) and follow the sign-up steps.
+
+### 0.2 Get a Docker Engine
+
+To install a Docker Engine, go to [Docker Engine website](https://www.docker.com/products/docker-desktop/). 
+
+### 0.3 Get the Docker container
+
+Now you finish all the setting up steps, it's time to get an actual container for TICR pipeline. To get the Docker container, open a terminal (for Windows user, open the PowerShell) and navigate to the folder where you store the dataset that you wish to run, and enter
+
+```
+docker login
+```
+
+You should be able to see the following in the terminal:
+
+```
+Authenticating with existing credentials...
+Login Succeeded
+```
+
+After login, type the following in the command:
+
+```
+docker pull solislemus/ticr-docker:1
+```
+
+This command will start pulling the Docker image from the docker hub. After it is done, type the following into the terminal:
+
+```
+docker image ls
+```
+
+You should see something similar to this:
+
+```
+REPOSITORY               TAG       IMAGE ID       CREATED       SIZE
+solislemus/ticr-docker   1         5f4642b01f92   4 days ago   2.29GB
+```
+
+The image ID might be different.
+
+Now you have the Docker image! 
+
+To run the Docker container of TICR pipeline, run the following command:
+
+```
+docker run --rm=true -it -v ${pwd}:/scratch -w /scratch solislemus/ticr-docker:1 /bin/bash
+```
+
+This will put the current directory (where your dataset is located) into the container but call it `/scratch`. When the container starts, `/scratch` will be the working directory.
+
+You should see your terminal changed into this:
+```
+I have no name!@5a93cb:/scratch$
+```
+
+This means you are already in the TICR container with all required software installed and all dependencies sorted out! Now you could do anything in the pipeline as you would do locally.
+
+## 1. Download the TICR scripts
+
+We use the TICR scripts that run MrBayes, BUCKy and Quartet MaxCut:
+
+```
+git clone https://github.com/crsl4/TICR.git
+```
+
+## 2. Input data: Multi-locus sequences in nexus files
 
 You must have multiple aligned loci, each alignment in a separate nexus file.
 
@@ -25,9 +96,9 @@ If you have the separate nexus files, you can tar them with the command:
 tar xxxx
 ```
 
-## 2. Estimating gene trees with MrBayes
+## 3. Estimating gene trees with MrBayes
 
-### 2.1 Input for MrBayes
+### 3.1 Input for MrBayes
 
 You need to write a MrBayes block with the parameters for MrBayes.
 Here, we provide a MrBayes block in `mbblock.txt`:
@@ -47,7 +118,7 @@ end;
 
 Make sure to increase the number of generations (`ngen`) and to modify the other chain parameters for your real analysis.
 
-### 2.2 Running MrBayes
+### 3.2 Running MrBayes
 
 We are ready to analyze all loci with MrBayes:
 ```
@@ -67,7 +138,7 @@ Total execution time: 46 seconds.
 
 For more information on how to run this analysis in a cluster, check [here]().
 
-### 2.3 Output for MrBayes
+### 3.3 Output for MrBayes
 
 The script created a new directory named `mb-output` (like we asked above),
 which contains a compressed tarball of all MrBayes output: `mb-output/1_seqgen.mb.tar`
@@ -87,7 +158,7 @@ We won't look at the output files, but if you want instructions on how to untar 
 
 NOTE: We are using MrBayes here, but we could use any method to estimate gene trees.
 
-## 3. Running BUCKy on the posterior distributions of gene trees
+## 4. Running BUCKy on the posterior distributions of gene trees
 
 ```
 $ ../scripts/bucky.pl mb-output/1_seqgen.mb.tar -o bucky-output
@@ -125,7 +196,7 @@ concordance factors which will be the input for SNaQ.
 
 NOTE: We use BUCKy to account for gene tree estimation error, but we could skip this step and use gene trees directly as input in snaq.
 
-## 4. Estimating a population tree with Quartet MaxCut
+## 5. Estimating a population tree with Quartet MaxCut
 
 The optimization algorithm within SNaQ is complex, so a good starting point to help the search in network space would improve the accuracy and running time.
 
@@ -153,7 +224,7 @@ Quartet Max Cut complete, tree located in '1_seqgen.QMC.tre'.
 We have a new file `1_seqgen.QMC.tre` with our QMC tree.
 
 
-## 5. Running SNaQ
+## 6. Running SNaQ
 
 To run SNaQ, you need
 - data extracted from sequence alignments:
@@ -167,19 +238,19 @@ using PhyloNetworks
 using PhyloPlots
 ```
 
-### 5.1 Read the CF table into Julia:
+### 6.1 Read the CF table into Julia:
 ```julia
 buckyCF = readTableCF("bucky-output/1_seqgen.CFs.csv")
 ```
 
 For the commands to read estimated gene trees, see [here]().
 
-### 5.2 Read the starting population tree into Julia:
+### 6.2 Read the starting population tree into Julia:
 ```julia
 tre = readTopology("bucky-output/1_seqgen.QMC.tre")
 ```
 
-### 5.3 Estimate the best network for a number of hybridizations
+### 6.3 Estimate the best network for a number of hybridizations
 Estimate the best network from bucky's quartet CF and `hmax` number of hybridizations (make sure to have a folder called `snaq` in the working directory):
 ```julia
 net0 = snaq!(tre,  buckyCF, hmax=0, filename="snaq/net0_bucky", seed=123)
@@ -192,7 +263,7 @@ NOTE: Increase the number of hybridizations sequentially:
 `hmax=0,1,2,...`, and use the best network at `h-1` as starting
 point to estimate the best network at `h`.
 
-### 5.4 Plot the estimated network
+### 6.4 Plot the estimated network
 
 NOTE: Recall that the produced network is semi-directed, not rooted.
 ```julia
@@ -221,7 +292,7 @@ R"dev.off()";
 
 NOTE: Ghost lineages are a thing!
 
-## 6. Bootstrapping
+## 7. Bootstrapping
 
 You need as input:
 
@@ -230,7 +301,7 @@ You need as input:
   - bootstrap gene trees from RAxML (same format that ASTRAL uses)
 - a starting topology
 
-### 6.1 Reading in data
+### 7.1 Reading in data
 
 We will focus on the case of CF credibility intervals:
 
@@ -241,7 +312,7 @@ rename!(buckyDat, Symbol("CF12.34") => :CF12_34)     # bootsnaq requires these c
 rename!(x -> Symbol(replace(String(x), "." => "_")), buckyDat) # do all in one go
 ```
 
-### 6.2 Running bootstrap
+### 7.2 Running bootstrap
 ```julia
 bootnet = bootsnaq(net0, buckyDat, hmax=1, nrep=50, runs=3,
                    filename="snaq/bootsnaq1_buckyCI")
@@ -253,7 +324,7 @@ Also increase the number of independent search runs per replicate, `runs`
 or just remove the `runs` option to get the default 10 runs.
 
 
-### 6.3 Bootstrap summary
+### 7.3 Bootstrap summary
 
 NOTE: If you close your session after having generated these bootstrap networks, you can
 read them from the output file later, in a new session.
@@ -271,7 +342,7 @@ net1 = readTopology("snaq/net1_bucky.out")
 rootatnode!(net1, "6")
 ```
 
-#### 6.3.1 Bootstrap summary of tree edges
+#### 7.3.1 Bootstrap summary of tree edges
 
 Same as with species tree, we simply count the number of times each edge in the major tree from the estimated network appears in the bootstrap major trees.
 
@@ -294,7 +365,7 @@ bootstrap support less than 100%.
 plot(net1,  :R, edgeLabel=BSe_tree[BSe_tree[:proportion] .< 100.0, :]);
 ```
 
-#### 6.3.1 Bootstrap summary of hybridization events
+#### 7.3.2 Bootstrap summary of hybridization events
 
 We focus on three types of clades:
 - hybrid clade: hardwired cluster (descendants) of either hybrid edge
