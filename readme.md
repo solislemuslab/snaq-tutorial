@@ -1,8 +1,8 @@
-# SNaQ Tutorial
+# SNaQ Tutorial: from alignments to phylogenetic network
 
 This website has an alternative tutorial for SNaQ to the one in the [PhyloNetworks wiki](https://github.com/crsl4/PhyloNetworks.jl/wiki). Here, we use a Docker for the installation of Dependencies and we use a real dataset (baobabs) to illustrate the pipeline from multilocus alignments to phylogenetic network.
 
-This learning materials were created as part of the workshop in the Kew Royal Botanical Gardens: [Methodological Advances in Reticulate Evolution](https://gtiley.github.io/RBG-Networks/about/) taught in November 2023.
+This learning materials were created as part of the workshop in the Kew Royal Botanical Gardens: [Methodological Advances in Reticulate Evolution](https://gtiley.github.io/RBG-Networks/about/) taught in November 2023 co-organized with George Tiley, Ziheng Yang and Tomas Flouri.
 
 
 ## Learning outcomes
@@ -12,10 +12,6 @@ By the end of the tutorial, you will be able to
 - estimate concordance factors from the estimated posterior distributions with [BUCKy](http://pages.stat.wisc.edu/~ane/bucky/index.html)
 - estimate a phylogenetic network from the estimated concordance factors with [SNaQ](https://github.com/crsl4/PhyloNetworks.jl)
 
-## Installation of dependencies
-
-
-We will not go over this section in the RBG workshop.
 
 ## Schedule
 
@@ -23,13 +19,19 @@ We will not go over this section in the RBG workshop.
 | :---:   | :---: | :---:       |
 | 1. Theory: Estimating phylogenetic networks from multilocus alignments | [notes](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture1.html) | 13:00 - 15:00 |
 | Break | | 15:00 - 15:30 |
-| 2. How do we combine probabilities? | i) Product rule: we can calculate the probability of simultaneous events when they are independent; ii) Addition rule: we can calculate the probability of different disjoint events  |  [notes](https://crsl4.github.io/forensic-stat//lecture-notes/2combining-probs.html) |
-| 3. How do we update probabilities when new information is available? | i) The conditional probability allows us to update a probability with new information; ii) Very important not to confuse the conditioning event as probabilities would change  |  [notes](https://crsl4.github.io/forensic-stat//lecture-notes/3updating-probs.html) |
+| 2. Set up: dependencies and data | [set-up](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/set-up.html), [data](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture2.html)  | 15:30 - 16:30  |
+| 3. From alignments to concordance factors with the TICR pipeline |  [notes](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture3.html) | 16:30 - 17:30 |
+| Q&A | | 15:30 - 16:00 |
 
-## YouTube video of the lecture
+| Topic | Lecture notes | Time |
+| :---:   | :---: | :---:       |
+| 4. Estimating a phylogenetic network with SNaQ | [notes](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture4.html) | 9:00 - 10:30 |
+| Break | | 10:30 - 11:00 |
+| 5. Comparative models for trait evolution on networks | [notes](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture5.html) | 11:00 - 12:00 |
 
-You can find the 90-minute lecture including all three topics in [this link](https://youtu.be/ARq7fX41KPA).
+## Citations
 
+If you use the TICR pipeline, PhyloNetworks and SNaQ for your work, please cite the references in [here](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/citations.html)
 
 ## Meet the instructor
 
@@ -40,8 +42,8 @@ Then, she did a MA in [Mathematics](http://www.math.wisc.edu) and a PhD in [Stat
 <div class="container">
     <div class="row">
         <div class="column">
-            <a href="../pics/claudiaSmall1.png">
-            <img src="https://crsl4.github.io/forensic-stat//pics/claudiaSmall1.png" width="150"
+            <a href="../images/claudiaSmall1.png">
+            <img src="https://solislemuslab.github.io/snaq-tutorial//images/claudiaSmall1.png" width="150"
                   title="Claudia Sol&iacute;s-Lemus" alt="Claudia Sol&iacute;s.Lemus"/></a>
         </div>
         <div class="column">
@@ -54,4 +56,5 @@ Then, she did a MA in [Mathematics](http://www.math.wisc.edu) and a PhD in [Stat
         </div>
     </div>
 </div>
+
 

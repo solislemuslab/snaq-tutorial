@@ -45,9 +45,9 @@ The image ID might be different.
 
 Now you have the Docker image! To run the Docker container of TICR pipeline, run the following command:
 ```
-docker run --rm=true -it -v ${pwd}:/scratch -w /scratch solislemus/ticr-docker:1 /bin/bash
+docker run -it -v ${pwd}:/scratch -w /scratch solislemus/ticr-docker:1 /bin/bash
 ```
-This will put the current directory (where your dataset is located) into the container but call it `/scratch`. When the container starts, `/scratch` will be the working directory.
+When the container starts, `/scratch` will be the working directory.
 
 You should see your terminal changed into this:
 ```

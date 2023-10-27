@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Estimating phylogenetic networks from multilocus data
-nav_order: 2
+nav_order: 1
 ---
 
 # Estimating phylogenetic networks from multilocus data: Theory
