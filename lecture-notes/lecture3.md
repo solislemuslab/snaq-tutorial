@@ -472,13 +472,17 @@ Checking for BUCKy version >= 1.4.4...
 Script was called as follows:
 perl bucky.pl mb-output/nexus.mb.tar -o bucky-output
 
-Found 6 taxa shared across all genes in this archive, 15 of 15 possible quartets will be run using output from 30 total genes.
-Summarizing MrBayes output for 30 genes.
+Found 16 taxa shared across all genes in this archive, 1820 of 1820 possible quartets will be run using output from 372 total genes.
+Summarizing MrBayes output for 372 genes.
+Job server successfully created.
+Use of uninitialized value $server_ip in scalar chomp at ../../TICR/scripts/bucky.pl line 456.
+Use of uninitialized value $server_ip in pattern match (m//) at ../../TICR/scripts/bucky.pl line 457.
+Could not determine external IP address, only local clients will be created.
 Job server successfully created.
 
-  Analyses complete: 15/15.
+  Analyses complete: 1820/1820.
   All connections closed.
-Total execution time: 57 seconds.
+Total execution time: 3 hours, 35 minutes, 27 seconds.
 ```
 
 ## 2.1 Output for BUCKy
@@ -487,13 +491,12 @@ The script created a new directory named `bucky-output` (like we asked above), w
 
 ```
 $ ls bucky-output/
-nexus.BUCKy.tar  nexus.mb.tar
-nexus.CFs.csv    nexus.mbsum.tar.gz
+nexus.CFs.csv  nexus.mb.tar  nexus.mbsum.tar.gz
 ```
 The `.csv` file (spreadsheet) lists all the 4-taxon sets and their estimated quartet
 concordance factors which will be the input for SNaQ.
 
-NOTE: We use BUCKy to account for gene tree estimation error, but we could skip this step and use gene trees directly as input in snaq.
+**NOTE:** We use BUCKy to account for gene tree estimation error, but we could skip this step and use gene trees directly as input in SNaQ as described in the [PhyloNetworks wiki](https://github.com/crsl4/PhyloNetworks.jl/wiki/Gene-Trees:-RAxML).
 
 # 3. Estimating a population tree with Quartet MaxCut
 
@@ -510,19 +513,25 @@ perl get-pop-tree.pl bucky-output/nexus.CFs.csv
 Parsing major resolution of each 4-taxon set... done.
 Running Quartet Max Cut...
 
+
 Quartet MaxCut version 2.10 by Sagi Snir, University of Haifa
-quartet file is 1_seqgen.QMC.txt,
-Number of quartets is 15, max element 6
-Number of quartets read: 15, max ele 6
-Started working at  Mon May 23 09:44:12 2016
-Ended working at  Mon May 23 09:44:12 2016
+
+quartet file is nexus.QMC.txt, 
+
+Number of quartets is 1820, max element 16
+
+Number of quartets read: 1820, max ele 16
+
+Started working at  Fri Oct 27 14:57:25 2023
+Ended working at  Fri Oct 27 14:57:25 2023
 
 Quartet Max Cut complete, tree located in 'nexus.QMC.tre'.
 ```
 
 We have a new file `nexus.QMC.tre` with our QMC tree.
 
-# Summary
+
+# Final input files for SNaQ
 
 We ran the following pipeline: From loci alignments in nexus file to estimated posterior distributions of gene trees with MrBayes, and then estimated concordance factors with BUCKy. The CFs were also used to estimate a starting topology for SNaQ.
 
@@ -530,4 +539,25 @@ The input for SNaQ will then be:
 - starting topology in `nexus.QMC.tre`
 - table of concordance factors in `nexus.CFs.csv`
 
-We note that there is an alternative pipeline in which estimated gene trees are used as input directly for SNaQ. In this approach, we can estimate the gene trees with any method like [RAxML](https://github.com/amkozlov/raxml-ng) or [IQ-Tree](http://www.iqtree.org/).
+We note that there is an alternative pipeline in which estimated gene trees are used as input directly for SNaQ. In this approach, we can estimate the gene trees with any method like [RAxML](https://github.com/amkozlov/raxml-ng) or [IQ-Tree](http://www.iqtree.org/), and it is described in the [PhyloNetworks wiki](https://github.com/crsl4/PhyloNetworks.jl/wiki/Gene-Trees:-RAxML).
+
+## Moving files out of the Docker container into local machine
+
+For those running the commands in a Docker container, we need to bring back these output files into your local machine.
+
+Not inside the docker, type `docker ps` to get the Contained ID:
+```
+% docker ps
+CONTAINER ID   IMAGE                      COMMAND       CREATED        STATUS        PORTS     NAMES
+f9331b6cad1a   solislemus/ticr-docker:1   "/bin/bash"   18 hours ago   Up 18 hours             mystifying_banach
+```
+
+We are going to copy only the csv table and the starting tree with the command `docker cp containerID:/path/to/find/files /path/to/put/copy`.
+Recall that you need to be outside of the Docker. We will move inside `snaq-tutorial/analysis`
+```
+pwd ## snaq-tutorial/analysis
+docker cp f9331b6cad1a:/scratch/snaq-tutorial/analysis/nexus.QMC.tre .
+docker cp f9331b6cad1a:/scratch/snaq-tutorial/analysis/bucky-output/nexus.CFs.csv .
+```
+
+Once you exit the Docker container, it does not disappear (unless you ran it with the `rm` option which we did not). So, you can always log back into the Docker if you know the container ID. More information [here](https://stackoverflow.com/questions/28574433/do-docker-containers-retain-file-changes) or in the [Docker tutorial](https://www.docker.com/101-tutorial/).
