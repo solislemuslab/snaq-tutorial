@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Setting up the input data
+title: Setting up
 nav_order: 3
 ---
 

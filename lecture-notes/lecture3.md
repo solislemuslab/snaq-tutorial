@@ -1,8 +1,10 @@
 ---
 layout: default
-title: From alignments to concordance factors with the TICR pipeline
+title: TICR pipeline
 nav_order: 4
 ---
+
+# From alignments to concordance factors with the TICR pipeline
 
 # 1. Estimating gene trees with MrBayes
 

@@ -1,10 +1,10 @@
 ---
 layout: default
-title: Estimating phylogenetic networks with SNaQ
-nav_order: 4
+title: Phylogenetic networks with SNaQ
+nav_order: 5
 ---
 
-## Running SNaQ
+# Estimating phylogenetic networks with SNaQ
 
 To run SNaQ, you need
 - data extracted from sequence alignments:
