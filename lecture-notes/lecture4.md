@@ -49,6 +49,28 @@ Estimate the best network from bucky's quartet CF and `hmax` number of hybridiza
 net1 = snaq!(tre, buckyCF, hmax=1, runs=1, filename="net1_snaq", seed=456, ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4)
 ```
 
+We get the following output:
+```
+optimization of topology, BL and inheritance probabilities using:
+ hmax = 1,
+ tolerance parameters: ftolRel=0.0001, ftolAbs=0.0001,
+                       xtolAbs=0.001, xtolRel=0.01.
+ max number of failed proposals = 75, liktolAbs = 0.0001.
+rootname for files: net1_snaq
+BEGIN: 1 runs on starting tree (Adi003,Adi002,(Adi001,((Smi165,Age001):0.07589939081007356,((Aru001,Aru127):1.9682746896593077,(((((Ama018,Ama006):0.6629549814235081,Aza037):0.21433997268234162,(Ape001,Ape009):0.7884933825184368):0.18446207186910396,Aza135):1.3930094839022371,((Aga002,Aga001):1.2489054987527415,Asu001):1.4066659751431154):0.10433470784878054):0.4862466639316025):2.576481877732949):0.15900373131300743);
+2023-10-30 11:6:32.177
+seed: 456 for run 1, 2023-10-30 11:6:32.178
+best network and networks with different hybrid/gene flow directions printed to .networks file
+
+MaxNet is (Adi002,Adi003,(Adi001,(((Age001,Smi165):0.06875186065692804,((Aru127,Aru001):1.8687868412877533,(((((Ama018,Ama006):0.698443686475557,Aza037):0.19780781753126722,(Ape001,Ape009):0.7906658263817897):0.15824335685281474,Aza135):1.2746785120008084,(((Aga002,Aga001):0.9578274060631259,Asu001):0.05377232098269331)#H21:1.6350802194135956::0.9574040911680053):0.12112736705285018):0.5109945051523238):2.58254022447432,#H21:9.99524670493258::0.04259590883199469):0.08449362588888307):0.14641124238464875); 
+with -loglik 961.1069527325545
+HybridNetwork, Un-rooted Network
+32 edges
+32 nodes: 16 tips, 1 hybrid nodes, 15 internal tree nodes.
+tip labels: Adi003, Adi002, Adi001, Smi165, ...
+(Adi002,Adi003,(Adi001,(((Age001,Smi165):0.069,((Aru127,Aru001):1.869,(((((Ama018,Ama006):0.698,Aza037):0.198,(Ape001,Ape009):0.791):0.158,Aza135):1.275,(((Aga002,Aga001):0.958,Asu001):0.054)#H21:1.635::0.957):0.121):0.511):2.583,#H21:9.995::0.043):0.084):0.146);
+```
+
 We are just doing 1 run (`runs=1`) and we are increasing the optimization tolerance (`ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4`) for the sake of computational time, but you should do at least 10 runs in your data and keep the default tolerance parameters.
 
 To use multiple threads while running snaq, see [here](https://crsl4.github.io/PhyloNetworks.jl/latest/man/snaq_plot/#parallel-computations).
@@ -56,6 +78,23 @@ To use multiple threads while running snaq, see [here](https://crsl4.github.io/P
 **Important:** You should increase the number of hybridizations sequentially:
 `hmax=0,1,2,...`, and use the best network at `h-1` as starting
 point to estimate the best network at `h`.
+
+### 4. Overview of the output files
+
+The estimated network is in the `net1_snaq.out` file which also has the running time: 7502.05 seconds (~2 hours) in my computer:
+
+```
+% less analysis/net1_snaq.out 
+
+(Adi002,Adi003,(Adi001,(((Age001,Smi165):0.06875186065692804,((Aru127,Aru001):1.8687868412877533,(((((Ama018,Ama006):0.698443686475557,Aza037):0.19780781753126722,(Ape001,Ape009):0.7906658263817897):0.15824335685281474,Aza135):1.2746785120008084,(((Aga002,Aga001):0.9578274060631259,Asu001):0.05377232098269331)#H21:1.6350802194135956::0.9574040911680053):0.12112736705285018):0.5109945051523238):2.58254022447432,#H21:9.99524670493258::0.04259590883199469):0.08449362588888307):0.14641124238464875); -Ploglik = 961.1069527325545
+ Dendroscope: (Adi002,Adi003,(Adi001,(((Age001,Smi165):0.06875186065692804,((Aru127,Aru001):1.8687868412877533,(((((Ama018,Ama006):0.698443686475557,Aza037):0.19780781753126722,(Ape001,Ape009):0.7906658263817897):0.15824335685281474,Aza135):1.2746785120008084,(((Aga002,Aga001):0.9578274060631259,Asu001):0.05377232098269331)#H21:1.6350802194135956):0.12112736705285018):0.5109945051523238):2.58254022447432,#H21:9.99524670493258):0.08449362588888307):0.14641124238464875);
+ Elapsed time: 7502.05 seconds, 1 attempted runs
+-------
+List of estimated networks for all runs (sorted by log-pseudolik; the smaller, the better):
+ (Adi002,Adi003,(Adi001,(((Age001,Smi165):0.06875186065692804,((Aru127,Aru001):1.8687868412877533,(((((Ama018,Ama006):0.698443686475557,Aza037):0.19780781753126722,(Ape001,Ape009):0.7906658263817897):0.15824335685281474,Aza135):1.2746785120008084,(((Aga002,Aga001):0.9578274060631259,Asu001):0.05377232098269331)#H21:1.6350802194135956::0.9574040911680053):0.12112736705285018):0.5109945051523238):2.58254022447432,#H21:9.99524670493258::0.04259590883199469):0.08449362588888307):0.14641124238464875);, with -loglik 961.1069527325545
+-------
+```
+
 
 ### 4. Plot the estimated network
 
