@@ -1,7 +1,6 @@
 remote_theme: just-the-docs/just-the-docs
 title: SNaQ Tutorial
 exclude:
-   - readme.md
    - images/
    - data/
    - analysis/
