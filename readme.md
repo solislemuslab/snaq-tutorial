@@ -42,8 +42,8 @@ Then, she did a MA in [Mathematics](http://www.math.wisc.edu) and a PhD in [Stat
 <div class="container">
     <div class="row">
         <div class="column">
-            <a href="../images/claudiaSmall1.png">
-            <img src="https://solislemuslab.github.io/snaq-tutorial//images/claudiaSmall1.png" width="150"
+            <a href="https://solislemuslab.github.io/snaq-tutorial/images/claudiaSmall1.png">
+            <img src="https://solislemuslab.github.io/snaq-tutorial/images/claudiaSmall1.png" width="150"
                   title="Claudia Sol&iacute;s-Lemus" alt="Claudia Sol&iacute;s.Lemus"/></a>
         </div>
         <div class="column">
