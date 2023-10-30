@@ -1,7 +1,7 @@
 ---
 layout: default
 title: TICR pipeline
-nav_order: 4
+nav_order: 5
 ---
 
 # From alignments to concordance factors with the TICR pipeline

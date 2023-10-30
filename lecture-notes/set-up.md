@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Installing dependencies and downloading data
-nav_order: 2
+title: Set up
+nav_order: 3
 ---
 
 # Set up working directory

@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Setting up
-nav_order: 3
+title: Data
+nav_order: 4
 ---
 
 # Data: Reticulate Evolution in Baobabs
