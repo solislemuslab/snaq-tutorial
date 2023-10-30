@@ -23,17 +23,17 @@ By the end of the tutorial, you will be able to
 
 | Topic | Lecture notes | Time |
 | :---:   | :---: | :---:       |
-| 1. Theory: Estimating phylogenetic networks from multilocus alignments | [notes](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture1.html) | 13:00 - 15:00 |
+| 1. Theory: Estimating phylogenetic networks from multilocus alignments | [theory](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture1.html) | 13:00 - 15:00 |
 | Break | | 15:00 - 15:30 |
 | 2. Set up: dependencies and data | [set-up](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/set-up.html), [data](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture2.html)  | 15:30 - 16:30  |
-| 3. From alignments to concordance factors with the TICR pipeline |  [notes](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture3.html) | 16:30 - 17:30 |
+| 3. From alignments to concordance factors with the TICR pipeline |  [TICR](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture3.html) | 16:30 - 17:30 |
 | Q&A | | 15:30 - 16:00 |
 
 | Topic | Lecture notes | Time |
 | :---:   | :---: | :---:       |
-| 4. Estimating a phylogenetic network with SNaQ | [notes](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture4.html) | 9:00 - 10:30 |
+| 4. Estimating a phylogenetic network with SNaQ | [SNaQ](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture4.html) | 9:00 - 10:30 |
 | Break | | 10:30 - 11:00 |
-| 5. Comparative models for trait evolution on networks | [notes](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture5.html) | 11:00 - 12:00 |
+| 5. Comparative models for trait evolution on networks | [traits](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture5.html) | 11:00 - 12:00 |
 
 ## Citations
 
