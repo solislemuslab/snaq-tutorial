@@ -1,3 +1,9 @@
+---
+layout: default
+title: About
+nav_order: 1
+---
+
 # SNaQ Tutorial: from alignments to phylogenetic network
 
 This website has an alternative tutorial for SNaQ to the one in the [PhyloNetworks wiki](https://github.com/crsl4/PhyloNetworks.jl/wiki). Here, we use a Docker for the installation of Dependencies and we use a real dataset (baobabs) to illustrate the pipeline from multilocus alignments to phylogenetic network.
