@@ -31,7 +31,7 @@ By the end of the tutorial, you will be able to
 
 ## Citations
 
-If you use the TICR pipeline, PhyloNetworks and SNaQ for your work, please cite the references in [here](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/citations.html)
+If you use the TICR pipeline, PhyloNetworks and/or SNaQ for your work, please cite the references in [here](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/citations.html)
 
 ## Meet the instructor
 

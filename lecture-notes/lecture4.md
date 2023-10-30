@@ -1,10 +1,10 @@
+---
+layout: default
+title: Estimating phylogenetic networks with SNaQ
+nav_order: 4
+---
 
-
-
-
-
-
-## 6. Running SNaQ
+## Running SNaQ
 
 To run SNaQ, you need
 - data extracted from sequence alignments:
@@ -12,56 +12,68 @@ To run SNaQ, you need
   - a table of concordance factors (CF) (e.g. from BUCKy)
 - a starting topology (e.g. from Quartet MaxCut or ASTRAL, or RAxML tree from a single gene...)
 
+In the `analysis` folder, we have:
+- starting topology in `nexus.QMC.tre`
+- table of concordance factors in `nexus.CFs.csv`
+
+We move into the `analysis` folder and start a `julia` session:
+
+```
+cd analysis
+julia
+```
+
+Note that we do not need to run this inside the Docker container anymore. We can run this locally as long as Julia is installed.
+
 Loading the Julia packages in Julia:
 ```julia
 using PhyloNetworks
 using PhyloPlots
 ```
 
-### 6.1 Read the CF table into Julia:
+### 1. Read the CF table into Julia:
 ```julia
-buckyCF = readTableCF("bucky-output/1_seqgen.CFs.csv")
+buckyCF = readTableCF("nexus.CFs.csv")
 ```
 
-For the commands to read estimated gene trees, see [here]().
+For the commands to read estimated gene trees, see [here](https://crsl4.github.io/PhyloNetworks.jl/latest/man/inputdata/#Tutorial-data:-gene-trees).
 
-### 6.2 Read the starting population tree into Julia:
+### 2. Read the starting population tree into Julia:
 ```julia
-tre = readTopology("bucky-output/1_seqgen.QMC.tre")
+tre = readTopology("nexus.QMC.tre")
 ```
 
-### 6.3 Estimate the best network for a number of hybridizations
+### 3. Estimate the best network for a number of hybridizations
 Estimate the best network from bucky's quartet CF and `hmax` number of hybridizations (make sure to have a folder called `snaq` in the working directory):
 ```julia
-net0 = snaq!(tre,  buckyCF, hmax=0, filename="snaq/net0_bucky", seed=123)
-net1 = snaq!(net0, buckyCF, hmax=1, filename="snaq/net1_bucky", seed=456)
+net1 = snaq!(tre, buckyCF, hmax=1, runs=1, filename="net1_snaq", seed=456, ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4)
 ```
 
-To use multiple threads while running snaq, see [here]().
+We are just doing 1 run (`runs=1`) and we are increasing the optimization tolerance (`ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4`) for the sake of computational time, but you should do at least 10 runs in your data and keep the default tolerance parameters.
 
-NOTE: Increase the number of hybridizations sequentially:
+To use multiple threads while running snaq, see [here](https://crsl4.github.io/PhyloNetworks.jl/latest/man/snaq_plot/#parallel-computations).
+
+**Important:** You should increase the number of hybridizations sequentially:
 `hmax=0,1,2,...`, and use the best network at `h-1` as starting
 point to estimate the best network at `h`.
 
-### 6.4 Plot the estimated network
+### 4. Plot the estimated network
 
-NOTE: Recall that the produced network is semi-directed, not rooted.
+Recall that the produced network is semi-directed, not rooted, so we need to root at the outgroup:
 ```julia
-rootatnode!(net1, "6")
+rootatnode!(net1, "Smi165")
 ```
 
-NOTE: If you cannot root at your outgroup, make sure to check the `.networks` file for alternative networks that could have a similar pseudolik score.
+If you get an error when trying to root at your outgroup, make sure to check the `.networks` file for alternative networks that could have a similar pseudolik score.
 
-```
-xxx
-```
+<div style="text-align:center"><img src="../images/net1networks2.png" width="750"/></div>
 
-Plotting the estimated networks:
+Now, we will plot the estimated networks:
 ```julia
-using PhyloPlots
 plot(net1, :R);
 ```
-again, if a plot window didn't pop up, an alternative is to save the plot
+
+If a plot window didn't pop up, an alternative is to save the plot
 as a pdf and open it outside of julia:
 
 ```julia
@@ -70,9 +82,11 @@ plot(net1, :R);
 R"dev.off()";
 ```
 
-NOTE: Ghost lineages are a thing!
+**Important:** SNaQ can infer hybridizations with extinct or unsampled taxa (ghost lineages). Thus, keep this in mind when interpreting the hybridization event, especially if the hybridization event appears to be connecting an ancestral lineage with a more recent one.
 
-## 7. Bootstrapping
+<div style="text-align:center"><img src="../images/net7taxa-options.png" width="750"/></div>
+
+## Bootstrapping
 
 You need as input:
 
@@ -81,36 +95,36 @@ You need as input:
   - bootstrap gene trees from RAxML (same format that ASTRAL uses)
 - a starting topology
 
-### 7.1 Reading in data
+### 1. Reading in data
 
 We will focus on the case of CF credibility intervals:
 
 ```julia
 using CSV, DataFrames
-buckyDat = CSV.read("bucky-output/1_seqgen.CFs.csv") # names like: CF12.34, CF12.34_lo etc.
-rename!(buckyDat, Symbol("CF12.34") => :CF12_34)     # bootsnaq requires these colunm names
-rename!(x -> Symbol(replace(String(x), "." => "_")), buckyDat) # do all in one go
+buckyDat = CSV.read("nexus.CFs.csv") # names like: CF12_34, CF12_34_lo etc.
 ```
 
-### 7.2 Running bootstrap
+[we want to do this in parallel]
+
+### 2. Running bootstrap
 ```julia
-bootnet = bootsnaq(net0, buckyDat, hmax=1, nrep=50, runs=3,
-                   filename="snaq/bootsnaq1_buckyCI")
+bootnet = bootsnaq(tre, buckyDat, hmax=1, nrep=10, runs=1,
+                   filename="bootsnaq1", ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4)
 ```
 
-These settings are to make calculations faster. For a real data set,
+Again, these settings are to make calculations faster. For a real data set,
 up the number of bootstrap replicates to 100 or more, by changing `nrep`.
 Also increase the number of independent search runs per replicate, `runs`
 or just remove the `runs` option to get the default 10 runs.
 
 
-### 7.3 Bootstrap summary
+### 3. Bootstrap summary
 
-NOTE: If you close your session after having generated these bootstrap networks, you can
+If you close your session after having generated these bootstrap networks, you can
 read them from the output file later, in a new session.
 This output file ends in `.out`, so you would do this:
 ```julia
-bootnet = readMultiTopology("snaq/bootsnaq1_buckyCI.out");
+bootnet = readMultiTopology("bootsnaq1.out");
 ```
 
 To make summaries, it's best to re-read the reference network (best,
@@ -118,9 +132,11 @@ estimated network) from file, to get a consistent numbering of nodes and edges.
 Here, we re-read from file, re-root the network correctly.
 
 ```julia
-net1 = readTopology("snaq/net1_bucky.out")
-rootatnode!(net1, "6")
+net1 = readTopology("net1_snaq.out")
+rootatnode!(net1, "Smi165")
 ```
+
+
 
 #### 7.3.1 Bootstrap summary of tree edges
 
