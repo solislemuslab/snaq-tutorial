@@ -1,3 +1,9 @@
+---
+layout: default
+title: Docker
+nav_exclude: true
+---
+
 # Tutorial to run the Docker
 
 TICR pipline requires multiple software and dependencies sorted out correctly to run. You might run into many issue if you install it locally, for example, a different version of complier. To make it easier, we pre-installed everything required in the pipeline in a Docker container, so that you could simple get the docker container and run the pipeline with no hassle.
