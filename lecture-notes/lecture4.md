@@ -95,6 +95,7 @@ List of estimated networks for all runs (sorted by log-pseudolik; the smaller, t
 -------
 ```
 
+[aqui voy]
 
 ### 4. Plot the estimated network
 
@@ -140,10 +141,8 @@ We will focus on the case of CF credibility intervals:
 
 ```julia
 using CSV, DataFrames
-buckyDat = CSV.read("nexus.CFs.csv") # names like: CF12_34, CF12_34_lo etc.
+buckyDat = CSV.read("nexus.CFs.csv", DataFrame) # names like: CF12_34, CF12_34_lo etc.
 ```
-
-[we want to do this in parallel]
 
 ### 2. Running bootstrap
 ```julia
