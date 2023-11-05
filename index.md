@@ -8,7 +8,7 @@ nav_order: 1
 
 This website has an alternative tutorial for SNaQ to the one in the [PhyloNetworks wiki](https://github.com/crsl4/PhyloNetworks.jl/wiki). Here, we use a Docker for the installation of Dependencies and we use a real dataset (baobabs) to illustrate the pipeline from multilocus alignments to phylogenetic network.
 
-This learning materials were created as part of the workshop in the Kew Royal Botanical Gardens: [Methodological Advances in Reticulate Evolution](https://gtiley.github.io/RBG-Networks/about/) taught in November 2023 co-organized with George Tiley, Ziheng Yang and Tomas Flouri.
+These learning materials were created as part of the workshop in the Kew Royal Botanical Gardens: [Methodological Advances in Reticulate Evolution](https://gtiley.github.io/RBG-Networks/about/) taught in November 2023 co-organized with George Tiley, Ziheng Yang and Tomas Flouri.
 
 
 ## Learning outcomes
