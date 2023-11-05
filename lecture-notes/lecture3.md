@@ -27,6 +27,7 @@ begin mrbayes;
 end;
 ```
 
+{: .highlight }
 Make sure to increase the number of generations (`ngen`) and to modify the other chain parameters for your real analysis.
 
 ## 1.2 Running MrBayes
@@ -68,7 +69,7 @@ Total execution time: 1 hour, 57 minutes, 4 seconds.
 
 ## 1.3 Output for MrBayes
 
-The script created a new directory named `mb-output` (like we asked above),
+The script created a new directory named `mb-output` (as specified in the command),
 which contains a compressed tarball of all MrBayes output: `mb-output/nexus.mb.tar`. We won't look at the output files, but if you want instructions on how to untar to see them, check [the PhyloNetworks wiki](https://github.com/crsl4/PhyloNetworks.jl/wiki/Gene-Trees:-MrBayes).
 
 
@@ -458,11 +459,15 @@ MrBayes results available for 372 total genes:
 
 We can run the chain for longer to allow all genes to reach convergence, but for now, we will ignore the lack of convergence of 5 genes.
 
-**Warning:** The TICR repo has the option to delete the genes that did not converge, but it has an error and it can end up deleting the whole `mb-output` folder, so we are not running that option.
+{: .warning }
+The TICR repo has the option to delete the genes that did not converge, but it has an error and it can end up deleting the whole `mb-output` folder, so we are not running that option.
 
-**NOTE:** We are using MrBayes here, but we could use any method to estimate gene trees as we will see in the SNaQ section.
+{: .note }
+We are using MrBayes here, but we could use any method to estimate gene trees as described in the [PhyloNetworks wiki](https://github.com/crsl4/PhyloNetworks.jl/wiki/Gene-Trees:-RAxML).
 
 # 2. Running BUCKy on the posterior distributions of gene trees
+
+We now run BUCKy to estimate the concordance factors from the posterior distributions of gene trees from MrBayes. This script will run BUCKy on every 4-taxon subset (1820 in this case for 16 taxa). Note that this analysis will take ~3 hours on a single laptop.
 
 ```
 $ ../../TICR/scripts/bucky.pl mb-output/nexus.mb.tar -o bucky-output
@@ -489,7 +494,7 @@ Total execution time: 3 hours, 35 minutes, 27 seconds.
 
 ## 2.1 Output for BUCKy
 
-The script created a new directory named `bucky-output` (like we asked above), which contains several tarballs (results from MrBayes, mbsum and from bucky).
+The script created a new directory named `bucky-output` (like we specified in the command above), which contains several tarballs (results from MrBayes, mbsum and from bucky).
 
 ```
 $ ls bucky-output/
@@ -498,13 +503,14 @@ nexus.CFs.csv  nexus.mb.tar  nexus.mbsum.tar.gz
 The `.csv` file (spreadsheet) lists all the 4-taxon sets and their estimated quartet
 concordance factors which will be the input for SNaQ.
 
-**NOTE:** We use BUCKy to account for gene tree estimation error, but we could skip this step and use gene trees directly as input in SNaQ as described in the [PhyloNetworks wiki](https://github.com/crsl4/PhyloNetworks.jl/wiki/Gene-Trees:-RAxML).
+{: .note }
+We use BUCKy to account for gene tree estimation error, but we could skip this step and use gene trees directly as input in SNaQ as described in the [PhyloNetworks wiki](https://github.com/crsl4/PhyloNetworks.jl/wiki/Gene-Trees:-RAxML).
 
 # 3. Estimating a population tree with Quartet MaxCut
 
 The optimization algorithm within SNaQ is complex, so a good starting point to help the search in network space would improve the accuracy and running time.
 
-We will use Quartet MaxCut (QMC) to estimating a starting population tree because the input data for QMC is the same table of concordance factors.
+We will use Quartet MaxCut (QMC) to estimate a starting population tree because the input data for QMC is the same table of concordance factors.
 
 ```
 $ ../../TICR/scripts/get-pop-tree.pl bucky-output/nexus.CFs.csv
@@ -535,7 +541,7 @@ We have a new file `nexus.QMC.tre` with our QMC tree.
 
 # Final input files for SNaQ
 
-We ran the following pipeline: From loci alignments in nexus file to estimated posterior distributions of gene trees with MrBayes, and then estimated concordance factors with BUCKy. The CFs were also used to estimate a starting topology for SNaQ.
+We ran the following pipeline: From loci alignments in nexus file to estimated posterior distributions of gene trees with MrBayes, and then estimated concordance factors with BUCKy. The CFs were also used to estimate a starting topology for SNaQ with QMC.
 
 The input for SNaQ will then be:
 - starting topology in `nexus.QMC.tre`
@@ -547,7 +553,7 @@ We note that there is an alternative pipeline in which estimated gene trees are 
 
 For those running the commands in a Docker container, we need to bring back these output files into your local machine.
 
-Not inside the docker, type `docker ps` to get the Contained ID:
+In your local machine (not inside the Docker container), type `docker ps` to get the Contained ID:
 ```
 % docker ps
 CONTAINER ID   IMAGE                      COMMAND       CREATED        STATUS        PORTS     NAMES
@@ -555,11 +561,11 @@ f9331b6cad1a   solislemus/ticr-docker:1   "/bin/bash"   18 hours ago   Up 18 hou
 ```
 
 We are going to copy only the csv table and the starting tree with the command `docker cp containerID:/path/to/find/files /path/to/put/copy`.
-Recall that you need to be outside of the Docker. We will move inside `snaq-tutorial/analysis`
+Recall that you need to be outside of the Docker. We will copy these files inside `snaq-tutorial/analysis`
 ```
 pwd ## snaq-tutorial/analysis
 docker cp f9331b6cad1a:/scratch/snaq-tutorial/analysis/nexus.QMC.tre .
 docker cp f9331b6cad1a:/scratch/snaq-tutorial/analysis/bucky-output/nexus.CFs.csv .
 ```
 
-Once you exit the Docker container, it does not disappear (unless you ran it with the `rm` option which we did not). So, you can always log back into the Docker if you know the container ID. More information [here](https://stackoverflow.com/questions/28574433/do-docker-containers-retain-file-changes) or in the [Docker tutorial](https://www.docker.com/101-tutorial/).
+Once you exit the Docker container, it does not disappear (unless you ran it with the `rm` option which we did not). So, you can always log back into the Docker if you know the container ID. More information, see [here](https://stackoverflow.com/questions/28574433/do-docker-containers-retain-file-changes) or in the [Docker tutorial](https://www.docker.com/101-tutorial/).

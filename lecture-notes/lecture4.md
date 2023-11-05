@@ -8,7 +8,7 @@ nav_order: 6
 
 To run SNaQ, you need
 - data extracted from sequence alignments:
-  - a list of estimated **unrooted** gene trees, or
+  - a list of estimated unrooted gene trees, or
   - a table of concordance factors (CF) (e.g. from BUCKy)
 - a starting topology (e.g. from Quartet MaxCut or ASTRAL, or RAxML tree from a single gene...)
 
@@ -44,12 +44,21 @@ tre = readTopology("nexus.QMC.tre")
 ```
 
 ### 3. Estimate the best network for a number of hybridizations
-Estimate the best network from bucky's quartet CF and `hmax` number of hybridizations (make sure to have a folder called `snaq` in the working directory):
+
+Estimate the best network from BUCKy's quartet CF and `hmax` number of hybridizations:
 ```julia
 net1 = snaq!(tre, buckyCF, hmax=1, runs=1, filename="net1_snaq", seed=456, ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4)
 ```
 
-We get the following output:
+The options we are using are:
+- `hmax=1`: maximum one hybridization event
+- `runs=1`: number of runs for the optimization; set to 1 to make the run fast, but you want to do at least `runs=10` (which is the default) for your real analysis
+- `filename="net1_snaq"`: rootname for the output files (described below)
+- `seed=456`: random seed to replicate the analysis
+- `ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4`: optimization tolerances chosen so that the run is fast. For your analyses, you do not need to specify these quantities and simply use the defaults 
+
+
+The following output is printed to the screen:
 ```
 optimization of topology, BL and inheritance probabilities using:
  hmax = 1,
@@ -71,11 +80,10 @@ tip labels: Adi003, Adi002, Adi001, Smi165, ...
 (Adi002,Adi003,(Adi001,(((Age001,Smi165):0.069,((Aru127,Aru001):1.869,(((((Ama018,Ama006):0.698,Aza037):0.198,(Ape001,Ape009):0.791):0.158,Aza135):1.275,(((Aga002,Aga001):0.958,Asu001):0.054)#H21:1.635::0.957):0.121):0.511):2.583,#H21:9.995::0.043):0.084):0.146);
 ```
 
-We are just doing 1 run (`runs=1`) and we are increasing the optimization tolerance (`ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4`) for the sake of computational time, but you should do at least 10 runs in your data and keep the default tolerance parameters.
-
 To use multiple threads while running snaq, see [here](https://crsl4.github.io/PhyloNetworks.jl/latest/man/snaq_plot/#parallel-computations).
 
-**Important:** You should increase the number of hybridizations sequentially:
+{: .important }
+You should increase the number of hybridizations sequentially:
 `hmax=0,1,2,...`, and use the best network at `h-1` as starting
 point to estimate the best network at `h`.
 
@@ -95,6 +103,13 @@ List of estimated networks for all runs (sorted by log-pseudolik; the smaller, t
 -------
 ```
 
+The `net1_snaq.networks` file contains multiple candidate networks that are obtained by rotating the position of the hybrid node in the hybridization cycle. For example, the figure below shows a hybridization cycle with 4 nodes and two positions for the hybrid node.
+
+<div style="text-align:center"><img src="../images/network-rotate.png" width="750"/></div>
+
+This `.networks` file exists so that you can check if a different placement of the hybrid node in the cycle makes more sense biologically, or when you cannot root your network on your outgroup because of the position of the hybrid node. Make sure to check the pseudolikelihood score of the candidate networks so that you select one that has comparable pseudolik score to the best network (see an example below).
+
+The files `net1_snaq.log` and `net1_snaq.err` contain information about the runs and possible errors, and are only useful if you get an error from SNaQ and want to report it as a [GitHub issue](https://github.com/crsl4/PhyloNetworks.jl/issues).
 
 ### 4. Plot the estimated network
 
@@ -123,7 +138,8 @@ plot(net1, :R);
 R"dev.off()";
 ```
 
-**Important:** SNaQ can infer hybridizations with extinct or unsampled taxa (ghost lineages). Thus, keep this in mind when interpreting the hybridization event, especially if the hybridization event appears to be connecting an ancestral lineage with a more recent one.
+{: .important }
+SNaQ can infer hybridizations with extinct or unsampled taxa (ghost lineages). Thus, keep this in mind when interpreting the hybridization event, especially if the hybridization event appears to be connecting an ancestral lineage with a more recent one.
 
 <div style="text-align:center"><img src="../images/net7taxa-options.png" width="750"/></div>
 
@@ -151,10 +167,13 @@ bootnet = bootsnaq(tre, buckyDat, hmax=1, nrep=10, runs=1,
                    filename="bootsnaq1", ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4)
 ```
 
-Again, these settings are to make calculations faster. For a real data set,
-up the number of bootstrap replicates to 100 or more, by changing `nrep`.
-Also increase the number of independent search runs per replicate, `runs`
-or just remove the `runs` option to get the default 10 runs.
+The options we are using are:
+- `hmax=1`: maximum one hybridization event
+- `nrep=10`: number of bootstrap replicates; you want to do at least 30 for your real analysis
+- `runs=1`: number of runs for the optimization; set to 1 to make the run fast, but you want to do at least `runs=10` (which is the default) for your real analysis
+- `filename="bootsnaq1"`: rootname for the output files
+- `seed=456`: random seed to replicate the analysis
+- `ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4`: optimization tolerances chosen so that the run is fast. For your analyses, you do not need to specify these quantities and simply use the defaults 
 
 
 ### 3. Bootstrap summary

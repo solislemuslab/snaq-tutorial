@@ -37,7 +37,8 @@ tar czf nexus.tar.gz *.nex
 
 This will create a tar file (`nexus.tar.gz`) with the nexus files.
 
-**Important:** It is very important that you do not compress the whole folder. You should compress the individual files `*.nex`, not `nexus-alignments` or the TICR perl scripts will throw an error.
+{: .important }
+It is very important that you do not compress the whole folder. You should compress the individual files `*.nex`, not `nexus-alignments` or the TICR perl scripts will throw an error.
 
 We will create a folder called `analysis` and move this input file there:
 
