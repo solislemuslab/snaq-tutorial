@@ -140,4 +140,5 @@ Basically, you have to use your username and passwork (or pass key):
 
 ```
 ssh USERNAME@gruffalo.cropdiversity.co.uk
+cd /mnt/shared/scratch/YOUR_USER_NAME/network_workshop
 ```
