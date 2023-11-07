@@ -124,10 +124,10 @@ If you get an error when trying to root at your outgroup, make sure to check the
 
 Now, we will plot the estimated networks:
 ```julia
-plot(net1, :R);
+plot(net1, :R, showGamma=true);
 ```
 
-<div style="text-align:center"><img src="../images/net1-snaq.png" width="750"/></div>
+<div style="text-align:center"><img src="../images/net1-snaq.png" width="550"/></div>
 
 If a plot window didn't pop up, an alternative is to save the plot
 as a pdf and open it outside of julia:
@@ -197,7 +197,7 @@ rootatnode!(net1, "Smi165")
 
 #### 3.1 Bootstrap summary of tree edges
 
-Same as with species tree, we simply count the number of times each edge in the major tree from the estimated network appears in the bootstrap major trees.
+Similarly to how we compute bootstrap support on species trees, we simply count the number of times each edge in the major tree from the estimated network appears in the bootstrap major trees.
 
 ```julia
 BSe_tree, tree1 = treeEdgesBootstrap(bootnet,net1)
@@ -227,8 +227,7 @@ julia> show(BSe_tree, allrows=true)
   13 │         32       100.0
 ```
 
-All the tree edges have 100% bootstrap support. The following command would allow us to 
-list the edges that do not have 100% bootstrap support (in this case, this dataframe is empty):
+In this case, all the tree edges have 100% bootstrap support. The following command would allow us to list the edges that do not have 100% bootstrap support (in this case, this data frame is empty):
 
 ```julia
 julia> BSe_tree[BSe_tree[!,:proportion] .< 100.0, :]
@@ -243,16 +242,23 @@ bootstrap support less than 100%.
 plot(net1,  :R, edgeLabel=BSe_tree[BSe_tree[!,:proportion] .< 100.0, :]);
 ```
 
-In this case, the plot is the same as before because all edges have 100% bootstrap support.
+In this case, the plot is the same as before because all edges have 100% bootstrap support,
+so we do not show it.
 
 #### 3.2 Bootstrap summary of hybridization events
 
-We focus on three types of clades:
+Summarizing bootstrap support on hybridization events is not straightforward because
+different edges could correspond to the same split in taxa.
+
+To summarize bootstrap support on networks, we focus on three types of clades:
 - hybrid clade: hardwired cluster (descendants) of either hybrid edge
 - major sister clade: hardwired cluster of the sibling edge of the major hybrid edge
 - minor sister clade: hardwired cluster of the sibling edge of the minor hybrid edge
 
 <br><img src="../images/hybridBSexplain.png" width="403">
+
+The following function computes the proportion of times that different clades 
+appear as hybrid, major sister or minor sister in the bootstrap networks:
 
 ```julia
 BSn, BSe, BSc, BSgam, BSedgenum = hybridBootstrapSupport(bootnet, net1);
@@ -261,6 +267,8 @@ BSn, BSe, BSc, BSgam, BSedgenum = hybridBootstrapSupport(bootnet, net1);
 - `BSe` is a table of bootstrap frequencies associated with **e**dges, and
 - `BSc` describes the makeup of all **c**lades.
 
+First, we plot the proportion of times that the major and minor hybrid edges of the best 
+network appear in the bootstrap networks:
 
 ```julia
 plot(net1, :R, edgeLabel=BSe[!,[:edge,:BS_hybrid_edge]]);
@@ -269,8 +277,7 @@ plot(net1, :R, edgeLabel=BSe[!,[:edge,:BS_hybrid_edge]]);
 <div style="text-align:center"><img src="../images/net1-bse.png" width="750"/></div>
 
 In this case, there are only 10% of bootstrap networks that have the major hybrid edge, 
-and 0% bootstrap networks that have the minor hybrid edge. Recall that we only ran 10 bootstrap
-replicates with 1 run each, so the runs have likely not converged in this case.
+and 0% bootstrap networks that have the minor hybrid edge. Recall that we only ran 10 bootstrap replicates with 1 run each, so the runs have likely not converged in this case.
 
 What do the remaining bootstrap networks have?
 
@@ -299,12 +306,9 @@ julia> BSe
 
 We can understand the meaning of each column with `? hybridBootstrapSupport` in julia.
 We can see, for example, that in 30% of the bootstrap networks there is a hybrid edge 
-from `Ape001` to `Ape009`. Because `BS_major` is also 30, we conclude that this edge appears as the 
-major hybrid edge in 30% of the bootstrap networks. We note that this edge does not appear in the
-estimated network (`net1`) since the column `edge` is `missing`.
+from `Ape001` to `Ape009`. Because `BS_major` is also 30, we conclude that this edge appears as the major hybrid edge in 30% of the bootstrap networks. We note that this edge does not appear in the estimated network (`net1`) since the column `edge` is `missing`.
 
-Sometimes, there is not a taxon name, but a clade, like `c_minus10`, for example, in the first row.
-The information of which clade this represents can be found in the `BSc` dataframe:
+Sometimes, there is not a taxon name, but a clade, like `c_minus10`, for example, in the first row. The information of which clade this represents can be found in the `BSc` data frame:
 
 ```julia
 julia> BSc
@@ -357,7 +361,7 @@ julia> BSc[!,:taxa][BSc[!,:H21]]
  "Asu001"
 ```
 
-Bootstrap support for the full reticulation relationships in the network, one at each hybrid node (support for same hybrid with same sister clades)
+We can also quantity the proportion of the times that the same hybridization event (same hybrid node with same major and minor hybrid edges) appear in the bootstrap networks.
 
 ```julia
 plot(net1, :R, nodeLabel=BSn[!,[:hybridnode,:BS_hybrid_samesisters]]);

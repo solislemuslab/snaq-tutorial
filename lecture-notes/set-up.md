@@ -115,6 +115,8 @@ pwd ## you are in /scratch or your working directory
 git clone https://github.com/nstenz/TICR.git
 ```
 
+We will be using the [standard scripts](https://github.com/nstenz/TICR/tree/master/scripts) to run on a local machine or server, but note that there are SLURM scripts available [here](https://github.com/nstenz/TICR/tree/master/scripts-cluster).
+
 # Downloading data via git clone
 
 Whether you are in `/scratch` inside the Docker, or in a project directory `my-analysis`, you can clone this repository with the data:
@@ -132,4 +134,10 @@ If you are using your own data, simply create a folder with your data.
 
 # For participants in the RBG workshop
 
-[Information missing on the set up in the cluster]
+Information ssh-ing to the Crop Diversity HPC cluster can be found [here](https://help.cropdiversity.ac.uk/ssh.html).
+
+Basically, you have to use your username and passwork (or pass key):
+
+```
+ssh USERNAME@gruffalo.cropdiversity.co.uk
+```
