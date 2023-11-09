@@ -87,7 +87,6 @@ This means you are already in the Docker container with all required software in
 ## Option 2: Install dependencies manually
 
 - Download [BUCKy](http://pages.stat.wisc.edu/~ane/bucky/index.html)
-- Download [TICR](https://github.com/nstenz/TICR)
 - Download [QuartetMaxCut](http://research.haifa.ac.il/%7Essagi/software/QMCN.tar.gz)
 - Download [MrBayes](http://nbisweden.github.io/MrBayes/)
 - [Download](https://julialang.org) julia and
@@ -106,7 +105,7 @@ This means you are already in the Docker container with all required software in
     ```
     and close julia with `exit()`.
 
-# Download the TICR scripts
+## Download the TICR scripts
 
 Whether you are in `/scratch` inside the Docker, or in a project directory `my-analysis`, you have to git clone the [TICR repo](https://github.com/nstenz/TICR) to use the TICR scripts that run MrBayes, BUCKy and Quartet MaxCut:
 
@@ -117,7 +116,7 @@ git clone https://github.com/nstenz/TICR.git
 
 We will be using the [standard scripts](https://github.com/nstenz/TICR/tree/master/scripts) to run on a local machine or server, but note that there are SLURM scripts available [here](https://github.com/nstenz/TICR/tree/master/scripts-cluster).
 
-# Downloading data via git clone
+## Downloading data via git clone
 
 Whether you are in `/scratch` inside the Docker, or in a project directory `my-analysis`, you can clone this repository with the data:
 
@@ -136,7 +135,7 @@ If you are using your own data, simply create a folder with your data.
 
 Information ssh-ing to the Crop Diversity HPC cluster can be found [here](https://help.cropdiversity.ac.uk/ssh.html).
 
-Basically, you have to use your username and passwork (or pass key):
+Basically, you have to use your username and password (or pass key):
 
 ```
 ssh USERNAME@gruffalo.cropdiversity.co.uk
