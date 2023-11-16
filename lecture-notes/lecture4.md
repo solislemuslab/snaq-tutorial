@@ -373,7 +373,7 @@ which in this case (because we did not do enough replicates or enough number of 
 We can also plot the bootstrap support for hybrid clades, regardless of their sisters. Here, it is shown on the parent edge of each node with positive hybrid support:
 
 ```julia
-plot(net1, :R, edgeLabel=BSn[BSn[:BS_hybrid].>0, [:edge,:BS_hybrid]]);
+plot(net1, :R, edgeLabel=BSn[BSn[!,:BS_hybrid].>0, [:edge,:BS_hybrid]]);
 ```
 
 <div style="text-align:center"><img src="../images/net1-bsn2.png" width="750"/></div>
