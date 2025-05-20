@@ -159,7 +159,7 @@ We will focus on the case of CF credibility intervals:
 
 ```julia
 using CSV, DataFrames
-buckyDat = CSV.read("nexus.CFs.csv", DataFrame) # names like: CF12_34, CF12_34_lo etc.
+buckyDat = CSV.read("nexus.CFs.csv", DataFrame) # names like: CF12.34, CF12.34_lo etc.
 ```
 
 ### 2. Running bootstrap
