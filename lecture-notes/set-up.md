@@ -97,6 +97,7 @@ Note that the versions installed within the Docker are Julia v1.9.2 and PhyloNet
     using Pkg # to use functions that manage packages
     Pkg.add("PhyloNetworks") # to download & install package PhyloNetworks
     Pkg.add("SNaQ")
+    Pkg.add("PhyloTraits")
     Pkg.add("PhyloPlots")
     Pkg.add("RCall")      # packaage to call R from within julia
     Pkg.add("CSV")        # to read from / write to text files, e.g. csv files

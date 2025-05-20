@@ -6,15 +6,15 @@ nav_order: 6
 
 # Trait evolution on phylogenetic networks
 
-We assume a fixed network, correctly rooted, with branch lengths proportional to calendar time. Note that SNaQ will estimate branches in coalescent units, and we need to calibrate the network so that branches are proportional to calendar time. We will skip this step here and provide the calibrated network, but you can do this calibration with what you learned in the workshop about BPP.
+We assume a fixed network, correctly rooted, with branch lengths proportional to calendar time. Note that SNaQ will estimate branches in coalescent units, and we need to calibrate the network so that branches are proportional to calendar time. We will skip this step here and provide the calibrated network, but you can do this calibration in [BPP](https://github.com/xflouris/bpp-tutorial-mare) or BEAST.
 
 We want to be inside the `analysis` folder.
 
 ```julia
-net1 = readTopology("(Smic:18.12505298,(Agre:8.747492442,(Adig:8.308140028,((#H1:0.0::0.117935,Arub:3.476676179):2.658717826,((Asua:3.171531094,Agra:3.171531094):2.767496398,((Azaa:1.381629136,(Aper:1.363263922,Amad:1.363263922):0.01836521346):2.095047043)#H1:2.460938604::0.882065):0.1963665132):2.172746023):0.4393524143):9.377560535);")
+net1 = readnewick("(Smic:18.12505298,(Agre:8.747492442,(Adig:8.308140028,((#H1:0.0::0.117935,Arub:3.476676179):2.658717826,((Asua:3.171531094,Agra:3.171531094):2.767496398,((Azaa:1.381629136,(Aper:1.363263922,Amad:1.363263922):0.01836521346):2.095047043)#H1:2.460938604::0.882065):0.1963665132):2.172746023):0.4393524143):9.377560535);")
 rootatnode!(net1, "Smic")
 
-plot(net1, :R, showGamma=true, showEdgeLength=true)
+plot(net1, showgamma=true, showedgelength=true)
 ```
 
 <div style="text-align:center"><img src="../images/net1-traits.png" width="550"/></div>
@@ -91,6 +91,7 @@ To infer evolutionary rates, run `fitdiscrete` on the network and data. It will 
 - The model ignores incomplete lineage sorting (e.g. hemiplasy).
 
 ```julia
+using PhyloTraits
 s1 = fitdiscrete(net1, :ERSM, species, df; optimizeQ=false)
 ```
 where the arguments are:
@@ -119,13 +120,13 @@ log-likelihood: -6.10081
 
 The command to reconstruct the ancestral states is:
 ```julia
-ancestralStateReconstruction(s1)
+ancestralreconstruction(s1)
 ```
 
 which provides the following output:
 
 ```julia
-julia> ancestralStateReconstruction(s1)
+julia> ancestralreconstruction(s1)
 19×4 DataFrame
  Row │ nodenumber  nodelabel  white       pigmented  
      │ Int64       String     Float64     Float64    
