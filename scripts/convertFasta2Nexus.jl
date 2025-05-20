@@ -13,6 +13,8 @@
 ##      - nexus-alignments
 ## - scripts (this script inside)
 
+## Note: sequence per taxon needs to be in a single line
+
 files = readdir("../data/fasta-alignments/")
 
 ## Check if there is a .DS_Store file

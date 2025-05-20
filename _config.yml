@@ -7,7 +7,6 @@ exclude:
    - scripts/
    - resources/
    - slides/
-   - lecture-notes/citations.md
 aux_links:
   "Materials on GitHub":
     - "//github.com/solislemuslab/snaq-tutorial"

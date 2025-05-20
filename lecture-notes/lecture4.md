@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Phylogenetic networks with SNaQ
-nav_order: 6
+nav_order: 5
 ---
 
 # Estimating phylogenetic networks with SNaQ

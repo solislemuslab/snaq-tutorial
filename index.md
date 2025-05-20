@@ -6,9 +6,14 @@ nav_order: 1
 
 # SNaQ Tutorial: from alignments to phylogenetic network
 
-This website has an alternative tutorial for SNaQ to the one in the [PhyloNetworks wiki](https://github.com/crsl4/PhyloNetworks.jl/wiki). Here, we use a Docker for the installation of Dependencies and we use a real dataset (baobabs) to illustrate the pipeline from multilocus alignments to phylogenetic network.
+This website has an alternative tutorial for SNaQ to the one in the [PhyloUtilities website](https://juliaphylo.github.io/PhyloUtilities/). Here, we provide an alternative set-up using a Docker for the installation of dependencies and we use a real dataset (baobabs) to illustrate the pipeline from multilocus alignments to phylogenetic network.
 
-These learning materials were created as part of the workshop in the Kew Royal Botanical Gardens: [Methodological Advances in Reticulate Evolution](https://gtiley.github.io/RBG-Networks/about/) taught in November 2023 co-organized with George Tiley, Ziheng Yang and Tomas Flouri.
+
+{: .highlight }
+[Version 1.0](https://github.com/solislemuslab/snaq-tutorial/tree/v1.0) of this tutorial was taught as part of the workshop in the Kew Royal Botanical Gardens: [Methodological Advances in Reticulate Evolution](https://gtiley.github.io/RBG-Networks/about/) (November 2023) co-organized with George Tiley, Ziheng Yang and Tomas Flouri.
+
+{: .highlight }
+The current version of this tutorial will be taught at the Molecular Evolution Workshop (MOLE) in the Marine Biology Lab at Woods Hole, MA (June 2025).
 
 
 ## Learning outcomes
@@ -16,28 +21,12 @@ These learning materials were created as part of the workshop in the Kew Royal B
 By the end of the tutorial, you will be able to
 - estimate gene trees (and posterior distributions) from multilocus alignments with [MrBayes](http://nbisweden.github.io/MrBayes/)
 - estimate concordance factors from the estimated posterior distributions with [BUCKy](http://pages.stat.wisc.edu/~ane/bucky/index.html)
-- estimate a phylogenetic network from the estimated concordance factors with [SNaQ](https://github.com/crsl4/PhyloNetworks.jl)
+- estimate a phylogenetic network from the estimated concordance factors with [SNaQ](https://github.com/JuliaPhylo/SNaQ.jl)
 
-
-## Schedule
-
-| Topic | Lecture notes | Time |
-| :---:   | :---: | :---:       |
-| 1. Theory: Estimating phylogenetic networks from multilocus alignments | [theory](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture1.html) | 13:00 - 15:00 |
-| Break | | 15:00 - 15:30 |
-| 2. Set up: dependencies and data | [set-up](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/set-up.html), [data](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture2.html)  | 15:30 - 16:30  |
-| 3. From alignments to concordance factors with the TICR pipeline |  [TICR](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture3.html) | 16:30 - 17:30 |
-| Q&A | | 15:30 - 16:00 |
-
-| Topic | Lecture notes | Time |
-| :---:   | :---: | :---:       |
-| 4. Estimating a phylogenetic network with SNaQ | [SNaQ](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture4.html) | 9:00 - 10:30 |
-| Break | | 10:30 - 11:00 |
-| 5. Comparative models for trait evolution on networks | [traits](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/lecture5.html) | 11:00 - 12:00 |
 
 ## Citations
 
-If you use the TICR pipeline, PhyloNetworks and/or SNaQ for your work, please cite the references in [here](https://solislemuslab.github.io/snaq-tutorial//lecture-notes/citations.html)
+If you use the TICR pipeline, PhyloNetworks and/or SNaQ for your work, please cite the references in [here](https://solislemuslab.github.io/snaq-tutorial/lecture-notes/citations.html)
 
 ## Meet the instructor
 
