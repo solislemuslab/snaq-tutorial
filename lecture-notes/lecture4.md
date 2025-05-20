@@ -28,19 +28,20 @@ Note that we do not need to run this inside the Docker container anymore. We can
 Loading the Julia packages in Julia:
 ```julia
 using PhyloNetworks
+using SNaQ
 using PhyloPlots
 ```
 
 ### 1. Read the CF table into Julia:
 ```julia
-buckyCF = readTableCF("nexus.CFs.csv")
+buckyCF = readtableCF("nexus.CFs.csv")
 ```
 
-For the commands to read estimated gene trees, see [here](https://crsl4.github.io/PhyloNetworks.jl/latest/man/inputdata/#Tutorial-data:-gene-trees).
+For the commands to read estimated gene trees, see [here](https://juliaphylo.github.io/SNaQ.jl/stable/man/snaq_est/#CFs-from-gene-trees).
 
 ### 2. Read the starting population tree into Julia:
 ```julia
-tre = readTopology("nexus.QMC.tre")
+tre = readnewick("nexus.QMC.tre")
 ```
 
 ### 3. Estimate the best network for a number of hybridizations
@@ -55,32 +56,32 @@ The options we are using are:
 - `runs=1`: number of runs for the optimization; set to 1 to make the run fast, but you want to do at least `runs=10` (which is the default) for your real analysis
 - `filename="net1_snaq"`: rootname for the output files (described below)
 - `seed=456`: random seed to replicate the analysis
-- `ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4`: optimization tolerances chosen so that the run is fast. For your analyses, you do not need to specify these quantities and simply use the defaults 
+- `ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4`: optimization tolerance values chosen so that the run is fast. For your analyses, you do not need to specify these quantities and can simply use the defaults 
 
 
 The following output is printed to the screen:
 ```
-optimization of topology, BL and inheritance probabilities using:
+optimization of topology, BL and inheritance probabilities in SNaQ.jl using:
  hmax = 1,
  tolerance parameters: ftolRel=0.0001, ftolAbs=0.0001,
                        xtolAbs=0.001, xtolRel=0.01.
  max number of failed proposals = 75, liktolAbs = 0.0001.
 rootname for files: net1_snaq
-BEGIN: 1 runs on starting tree (Adi003,Adi002,(Adi001,((Smi165,Age001):0.07589939081007356,((Aru001,Aru127):1.9682746896593077,(((((Ama018,Ama006):0.6629549814235081,Aza037):0.21433997268234162,(Ape001,Ape009):0.7884933825184368):0.18446207186910396,Aza135):1.3930094839022371,((Aga002,Aga001):1.2489054987527415,Asu001):1.4066659751431154):0.10433470784878054):0.4862466639316025):2.576481877732949):0.15900373131300743);
-2023-10-30 11:6:32.177
-seed: 456 for run 1, 2023-10-30 11:6:32.178
+BEGIN: 1 runs on starting tree (Adi003,Adi002,(Adi001,((Smi165,Age001):0.11282763783172885,((Aru001,Aru127):1.8895892722315206,(((((Ama018,Ama006):0.635979116918197,Aza037):0.2064967739309278,(Ape001,Ape009):0.7567729870351637):0.17709162771363504,Aza135):1.3242277867359862,((Aga002,Aga001):1.1662225201998988,Asu001):1.33643060185584):0.10642736789559729):0.45657761568828575):2.424105745425032):0.1638513742450063);
+2025-05-20 15:51:6.718
+seed: 456 for run 1, 2025-05-20 15:51:8.268
 best network and networks with different hybrid/gene flow directions printed to .networks file
 
-MaxNet is (Adi002,Adi003,(Adi001,(((Age001,Smi165):0.06875186065692804,((Aru127,Aru001):1.8687868412877533,(((((Ama018,Ama006):0.698443686475557,Aza037):0.19780781753126722,(Ape001,Ape009):0.7906658263817897):0.15824335685281474,Aza135):1.2746785120008084,(((Aga002,Aga001):0.9578274060631259,Asu001):0.05377232098269331)#H21:1.6350802194135956::0.9574040911680053):0.12112736705285018):0.5109945051523238):2.58254022447432,#H21:9.99524670493258::0.04259590883199469):0.08449362588888307):0.14641124238464875); 
-with -loglik 961.1069527325545
-HybridNetwork, Un-rooted Network
+MaxNet is ((Adi001,(((Smi165,Age001):0.10909139515055954,((Aru001,Aru127):1.783553809432207,(((((Ama018,Ama006):0.6686980253651718,Aza037):0.19099507776876928,(Ape001,Ape009):0.754921262227867):0.15053133922303902,Aza135):1.1427622517130929,((Asu001,(Aga002,Aga001):0.9081531659227717):0.48236561520817717)#H17:2.0594381934607306::0.8210853726908922):0.18471450412843127):0.5158573560102714):0.22659449745358853,#H17:0.697544251960922::0.17891462730910784):2.1586763301439107):0.1426954054706382,Adi003,Adi002); 
+with -loglik 815.1786591571492
+HybridNetwork, Semidirected Network
 32 edges
 32 nodes: 16 tips, 1 hybrid nodes, 15 internal tree nodes.
 tip labels: Adi003, Adi002, Adi001, Smi165, ...
-(Adi002,Adi003,(Adi001,(((Age001,Smi165):0.069,((Aru127,Aru001):1.869,(((((Ama018,Ama006):0.698,Aza037):0.198,(Ape001,Ape009):0.791):0.158,Aza135):1.275,(((Aga002,Aga001):0.958,Asu001):0.054)#H21:1.635::0.957):0.121):0.511):2.583,#H21:9.995::0.043):0.084):0.146);
+((Adi001,(((Smi165,Age001):0.109,((Aru001,Aru127):1.784,(((((Ama018,Ama006):0.669,Aza037):0.191,(Ape001,Ape009):0.755):0.151,Aza135):1.143,((Asu001,(Aga002,Aga001):0.908):0.482)#H17:2.059::0.821):0.185):0.516):0.227,#H17:0.698::0.179):2.159):0.143,Adi003,Adi002);
 ```
 
-To use multiple threads while running snaq, see [here](https://crsl4.github.io/PhyloNetworks.jl/latest/man/snaq_plot/#parallel-computations).
+To use multiple threads while running SNaQ, see [here](https://juliaphylo.github.io/SNaQ.jl/stable/man/parallelcomputation/).
 
 {: .important }
 You should increase the number of hybridizations sequentially:
@@ -89,17 +90,17 @@ point to estimate the best network at `h`.
 
 ### 4. Overview of the output files
 
-The estimated network is in the `net1_snaq.out` file which also has the running time: 7502.05 seconds (~2 hours) in my computer:
+The estimated network is in the `net1_snaq.out` file which also has the running time: 2082.5 seconds (~35 minutes) in my computer:
 
 ```
 % less analysis/net1_snaq.out 
 
-(Adi002,Adi003,(Adi001,(((Age001,Smi165):0.06875186065692804,((Aru127,Aru001):1.8687868412877533,(((((Ama018,Ama006):0.698443686475557,Aza037):0.19780781753126722,(Ape001,Ape009):0.7906658263817897):0.15824335685281474,Aza135):1.2746785120008084,(((Aga002,Aga001):0.9578274060631259,Asu001):0.05377232098269331)#H21:1.6350802194135956::0.9574040911680053):0.12112736705285018):0.5109945051523238):2.58254022447432,#H21:9.99524670493258::0.04259590883199469):0.08449362588888307):0.14641124238464875); -Ploglik = 961.1069527325545
- Dendroscope: (Adi002,Adi003,(Adi001,(((Age001,Smi165):0.06875186065692804,((Aru127,Aru001):1.8687868412877533,(((((Ama018,Ama006):0.698443686475557,Aza037):0.19780781753126722,(Ape001,Ape009):0.7906658263817897):0.15824335685281474,Aza135):1.2746785120008084,(((Aga002,Aga001):0.9578274060631259,Asu001):0.05377232098269331)#H21:1.6350802194135956):0.12112736705285018):0.5109945051523238):2.58254022447432,#H21:9.99524670493258):0.08449362588888307):0.14641124238464875);
- Elapsed time: 7502.05 seconds, 1 attempted runs
+((Adi001,(((Smi165,Age001):0.10909139515055954,((Aru001,Aru127):1.783553809432207,(((((Ama018,Ama006):0.6686980253651718,Aza037):0.19099507776876928,(Ape001,Ape009):0.754921262227867):0.15053133922303902,Aza135):1.1427622517130929,((Asu001,(Aga002,Aga001):0.9081531659227717):0.48236561520817717)#H17:2.0594381934607306::0.8210853726908922):0.18471450412843127):0.5158573560102714):0.22659449745358853,#H17:0.697544251960922::0.17891462730910784):2.1586763301439107):0.1426954054706382,Adi003,Adi002); -Ploglik = 815.1786591571492
+ Dendroscope: ((Adi001,(((Smi165,Age001):0.10909139515055954,((Aru001,Aru127):1.783553809432207,(((((Ama018,Ama006):0.6686980253651718,Aza037):0.19099507776876928,(Ape001,Ape009):0.754921262227867):0.15053133922303902,Aza135):1.1427622517130929,((Asu001,(Aga002,Aga001):0.9081531659227717):0.48236561520817717)#H17:2.0594381934607306):0.18471450412843127):0.5158573560102714):0.22659449745358853,#H17:0.697544251960922):2.1586763301439107):0.1426954054706382,Adi003,Adi002);
+ Elapsed time: 2082.5 seconds, 1 attempted runs
 -------
 List of estimated networks for all runs (sorted by log-pseudolik; the smaller, the better):
- (Adi002,Adi003,(Adi001,(((Age001,Smi165):0.06875186065692804,((Aru127,Aru001):1.8687868412877533,(((((Ama018,Ama006):0.698443686475557,Aza037):0.19780781753126722,(Ape001,Ape009):0.7906658263817897):0.15824335685281474,Aza135):1.2746785120008084,(((Aga002,Aga001):0.9578274060631259,Asu001):0.05377232098269331)#H21:1.6350802194135956::0.9574040911680053):0.12112736705285018):0.5109945051523238):2.58254022447432,#H21:9.99524670493258::0.04259590883199469):0.08449362588888307):0.14641124238464875);, with -loglik 961.1069527325545
+ ((Adi001,(((Smi165,Age001):0.10909139515055954,((Aru001,Aru127):1.783553809432207,(((((Ama018,Ama006):0.6686980253651718,Aza037):0.19099507776876928,(Ape001,Ape009):0.754921262227867):0.15053133922303902,Aza135):1.1427622517130929,((Asu001,(Aga002,Aga001):0.9081531659227717):0.48236561520817717)#H17:2.0594381934607306::0.8210853726908922):0.18471450412843127):0.5158573560102714):0.22659449745358853,#H17:0.697544251960922::0.17891462730910784):2.1586763301439107):0.1426954054706382,Adi003,Adi002);, with -loglik 815.1786591571492
 -------
 ```
 
@@ -109,7 +110,7 @@ The `net1_snaq.networks` file contains multiple candidate networks that are obta
 
 This `.networks` file exists so that you can check if a different placement of the hybrid node in the cycle makes more sense biologically, or when you cannot root your network on your outgroup because of the position of the hybrid node. Make sure to check the pseudolikelihood score of the candidate networks so that you select one that has comparable pseudolik score to the best network (see an example below).
 
-The files `net1_snaq.log` and `net1_snaq.err` contain information about the runs and possible errors, and are only useful if you get an error from SNaQ and want to report it as a [GitHub issue](https://github.com/crsl4/PhyloNetworks.jl/issues).
+The files `net1_snaq.log` and `net1_snaq.err` contain information about the runs and possible errors, and are only useful if you get an error from SNaQ and want to report it as a [GitHub issue](https://github.com/JuliaPhylo/SNaQ.jl/issues).
 
 ### 4. Plot the estimated network
 
@@ -124,7 +125,7 @@ If you get an error when trying to root at your outgroup, make sure to check the
 
 Now, we will plot the estimated networks:
 ```julia
-plot(net1, :R, showGamma=true);
+plot(net1, showgamma=true);
 ```
 
 <div style="text-align:center"><img src="../images/net1-snaq.png" width="550"/></div>
