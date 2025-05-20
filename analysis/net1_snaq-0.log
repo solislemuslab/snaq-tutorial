@@ -1,0 +1,35 @@
+optimization of topology, BL and inheritance probabilities using:
+ hmax = 1,
+ tolerance parameters: ftolRel=0.0001, ftolAbs=0.0001,
+                       xtolAbs=0.001, xtolRel=0.01.
+ max number of failed proposals = 75, liktolAbs = 0.0001.
+rootname for files: net1_snaq
+BEGIN: 1 runs on starting tree (Adi003,Adi002,(Adi001,((Smi165,Age001):0.07589939081007356,((Aru001,Aru127):1.9682746896593077,(((((Ama018,Ama006):0.6629549814235081,Aza037):0.21433997268234162,(Ape001,Ape009):0.7884933825184368):0.18446207186910396,Aza135):1.3930094839022371,((Aga002,Aga001):1.2489054987527415,Asu001):1.4066659751431154):0.10433470784878054):0.4862466639316025):2.576481877732949):0.15900373131300743);
+
+main seed 456
+seed: 456 for run 1, 2023-10-30 11:6:32.178
+
+BEGIN SNaQ for run 1, seed 456 and hmax 1 changed starting topology by NNI move
+
+Begins heuristic optimization of network------
+
+found best network, now we re-optimize branch lengths and gamma more precisely
+STOPPED by number of failures criteria
+END optTopLevel: found minimizer topology at step 227 (failures: 75) with -loglik=961.10695 and ht_min=[0.0426, 9.99525, 0.14641, 1.86879, 0.51099, 0.06875, 0.19781, 0.79067, 0.69844, 0.08449, 0.12113, 0.95783, 1.27468, 0.15824, 2.58254, 0.05377, 1.63508]
+PERFORMANCE: total number of moves (proposed, successful, accepted) in general, and to fix gamma=0.0,t=0.0 cases
+	--------moves general--------				 --------moves gamma,t------	
+move	 Num.Proposed	 Num.Successful	 Num.Accepted	 | Num.Proposed	 Num.Successful	 Num.Accepted
+add		 3		 3		 3	 |	 NA 		 NA 		 NA 
+mvorigin	 61		 61		 19	 |	 62		 62		 --
+mvtarget	 60		 60		 4	 |	 64		 64		 --
+chdir		 39		 39		 5	 |	 126		 126		 --
+delete		 0		 0		 0	 |	 1		 1		 --
+nni		 64		 64		 4	 |	 13		 13		 --
+Total		 227		 227		 35	 |	 266		 266		 95
+Proportion	 -- 		 1.0		 0.2	 |	 -- 		 1.0		 0.4
+(Adi002,Adi003,(Adi001,(((Age001,Smi165):0.06875186065692804,((Aru127,Aru001):1.8687868412877533,(((((Ama018,Ama006):0.698443686475557,Aza037):0.19780781753126722,(Ape001,Ape009):0.7906658263817897):0.15824335685281474,Aza135):1.2746785120008084,(((Aga002,Aga001):0.9578274060631259,Asu001):0.05377232098269331)#H21:1.6350802194135956::0.9574040911680053):0.12112736705285018):0.5109945051523238):2.58254022447432,#H21:9.99524670493258::0.04259590883199469):0.08449362588888307):0.14641124238464875);
+---------------------
+
+2023-10-30 13:11:34.326
+MaxNet is (Adi002,Adi003,(Adi001,(((Age001,Smi165):0.06875186065692804,((Aru127,Aru001):1.8687868412877533,(((((Ama018,Ama006):0.698443686475557,Aza037):0.19780781753126722,(Ape001,Ape009):0.7906658263817897):0.15824335685281474,Aza135):1.2746785120008084,(((Aga002,Aga001):0.9578274060631259,Asu001):0.05377232098269331)#H21:1.6350802194135956::0.9574040911680053):0.12112736705285018):0.5109945051523238):2.58254022447432,#H21:9.99524670493258::0.04259590883199469):0.08449362588888307):0.14641124238464875); 
+with -loglik 961.1069527325545

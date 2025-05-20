@@ -11,7 +11,7 @@ nav_order: 4
 ## 1.1 Input for MrBayes
 
 You need to write a MrBayes block with the parameters for MrBayes.
-Here, we provide a MrBayes block in [`mbblock.txt`](https://github.com/nstenz/TICR/blob/master/example/mb-block.txt) from the [TICR repo](https://github.com/nstenz/TICR):
+Here, we provide a MrBayes block in [`mbblock.txt`](https://github.com/JuliaPhylo/PhyloUtilities/blob/main/scripts/mbblock.txt) from the [TICR repo](https://github.com/nstenz/TICR):
 
 ```
 $ cd TICR/example
@@ -19,10 +19,10 @@ $ cat mbblock.txt
 begin mrbayes;
 	set nowarnings=yes;
 	set autoclose=yes;
-	set seed=112491;
-	set swapseed=1337;
-	lset nst=6 rates=gamma;
-	mcmcp ngen=200000 burninfrac=.25 samplefreq=200 printfreq=1000 diagnfreq=10000 nruns=3 nchains=3 temp=0.40 swapfreq=10;
+	lset nst=2;
+	mcmcp ngen=100000 burninfrac=.25 samplefreq=50 printfreq=10000 [increase these for real]
+  diagnfreq=10000 nruns=2 nchains=2 temp=0.40 swapfreq=10;       [increase for real analysis]mcmc;
+  sumt;
 	mcmc; 
 end;
 ```
@@ -38,7 +38,7 @@ Recall that the main working directory (`scratch` or `my-analysis`) has the stru
 
 - `scratch` (or `my-analysis`)
     - `snaq-tutorial` (with the  new `analysis` folder)
-    -  `TICR` (with the scripts)
+    -  `PhyloUtilities` (with the scripts)
 
 We want to be in the folder with the data:
 
@@ -49,11 +49,11 @@ cd snaq-tutorial/analysis
 In this folder, we want to copy the MrBayes block:
 
 ```
-cp ../../TICR/example/mb-block.txt .
+cp ../../PhyloUtilities/scripts/mbblock.txt .
 ```
 
 ```
-$ ../../TICR/scripts/mb.pl nexus.tar.gz -m mb-block.txt -o mb-output
+$ ../../PhyloUtilities/scripts/mb.pl nexus.tar.gz -m mbblock.txt -o mb-output
 
 Script was called as follows:
 perl mb.pl nexus.tar.gz -m mbblock.txt -o mb-output
@@ -64,410 +64,410 @@ Job server successfully created.
 
   Analyses complete: 372/372.
   All connections closed.
-Total execution time: 1 hour, 57 minutes, 4 seconds.
+Total execution time: 12 minutes, 27 seconds.
 ```
 
 ## 1.3 Output for MrBayes
 
 The script created a new directory named `mb-output` (as specified in the command),
-which contains a compressed tarball of all MrBayes output: `mb-output/nexus.mb.tar`. We won't look at the output files, but if you want instructions on how to untar to see them, check [the PhyloNetworks wiki](https://github.com/crsl4/PhyloNetworks.jl/wiki/Gene-Trees:-MrBayes).
+which contains a compressed tarball of all MrBayes output: `mb-output/nexus.mb.tar`. We won't look at the output files, but if you want instructions on how to untar to see them, check [the PhyloUtilities website](https://juliaphylo.github.io/PhyloUtilities/notebooks/Gene-Trees-MrBayes.html).
 
 
 We want to check convergence of the runs with (details of this command can be found in the [TICR repo](https://github.com/nstenz/TICR)):
 ```
-../../TICR/scripts/mb.pl mb-output -c 0.05
+../../PhyloUtilities/scripts/mb.pl mb-output -c 0.05
 ```
 
 We get the output:
 
 ```
 MrBayes results available for 372 total genes:
-  0.nex.tar.gz  : 0.009339
-  1.nex.tar.gz  : 0.013518
-  2.nex.tar.gz  : 0.014948
-  3.nex.tar.gz  : 0.009737
-  4.nex.tar.gz  : 0.012187
-  5.nex.tar.gz  : 0.012432
-  6.nex.tar.gz  : 0.007308
-  7.nex.tar.gz  : 0.013676
-  8.nex.tar.gz  : 0.014463
-  9.nex.tar.gz  : 0.011934
-  10.nex.tar.gz : 0.012245
-  11.nex.tar.gz : 0.007778
-  12.nex.tar.gz : 0.004098
-  13.nex.tar.gz : 0.009621
-  14.nex.tar.gz : 0.008836
-  15.nex.tar.gz : 0.011315
-  16.nex.tar.gz : 0.032953
-  17.nex.tar.gz : 0.011602
-  18.nex.tar.gz : 0.018016
-  19.nex.tar.gz : 0.009301
-  20.nex.tar.gz : 0.017236
-  21.nex.tar.gz : 0.008698
-  22.nex.tar.gz : 0.005397
-  23.nex.tar.gz : 0.205261
-  24.nex.tar.gz : 0.010576
-  25.nex.tar.gz : 0.007037
-  26.nex.tar.gz : 0.011003
-  27.nex.tar.gz : 0.004304
-  28.nex.tar.gz : 0.007650
-  29.nex.tar.gz : 0.013461
-  30.nex.tar.gz : 0.006423
-  31.nex.tar.gz : 0.013378
-  32.nex.tar.gz : 0.011443
-  33.nex.tar.gz : 0.018124
-  34.nex.tar.gz : 0.011227
-  35.nex.tar.gz : 0.013071
-  36.nex.tar.gz : 0.014382
-  37.nex.tar.gz : 0.008166
-  38.nex.tar.gz : 0.014007
-  39.nex.tar.gz : 0.012676
-  40.nex.tar.gz : 0.009052
-  41.nex.tar.gz : 0.003385
-  42.nex.tar.gz : 0.007412
-  43.nex.tar.gz : 0.010273
-  44.nex.tar.gz : 0.038163
-  45.nex.tar.gz : 0.005651
-  46.nex.tar.gz : 0.004457
-  47.nex.tar.gz : 0.010520
-  48.nex.tar.gz : 0.011837
-  49.nex.tar.gz : 0.025388
-  50.nex.tar.gz : 0.007262
-  51.nex.tar.gz : 0.007285
-  52.nex.tar.gz : 0.006994
-  53.nex.tar.gz : 0.003820
-  54.nex.tar.gz : 0.012244
-  55.nex.tar.gz : 0.008809
-  56.nex.tar.gz : 0.010009
-  57.nex.tar.gz : 0.014042
-  58.nex.tar.gz : 0.008967
-  59.nex.tar.gz : 0.025128
-  60.nex.tar.gz : 0.010323
-  61.nex.tar.gz : 0.003934
-  62.nex.tar.gz : 0.007758
-  63.nex.tar.gz : 0.007556
-  64.nex.tar.gz : 0.007920
-  65.nex.tar.gz : 0.014156
-  66.nex.tar.gz : 0.005579
-  67.nex.tar.gz : 0.008610
-  68.nex.tar.gz : 0.012942
-  69.nex.tar.gz : 0.012334
-  70.nex.tar.gz : 0.013032
-  71.nex.tar.gz : 0.007713
-  72.nex.tar.gz : 0.010846
-  73.nex.tar.gz : 0.007544
-  74.nex.tar.gz : 0.005354
-  75.nex.tar.gz : 0.035109
-  76.nex.tar.gz : 0.006520
-  77.nex.tar.gz : 0.018321
-  78.nex.tar.gz : 0.005410
-  79.nex.tar.gz : 0.014672
-  80.nex.tar.gz : 0.011011
-  81.nex.tar.gz : 0.030514
-  82.nex.tar.gz : 0.009818
-  83.nex.tar.gz : 0.267835
-  84.nex.tar.gz : 0.019695
-  85.nex.tar.gz : 0.015109
-  86.nex.tar.gz : 0.010809
-  87.nex.tar.gz : 0.048233
-  88.nex.tar.gz : 0.010913
-  89.nex.tar.gz : 0.008628
-  90.nex.tar.gz : 0.009416
-  91.nex.tar.gz : 0.018063
-  92.nex.tar.gz : 0.003539
-  93.nex.tar.gz : 0.013522
-  94.nex.tar.gz : 0.032754
-  95.nex.tar.gz : 0.016011
-  96.nex.tar.gz : 0.007937
-  97.nex.tar.gz : 0.009941
-  98.nex.tar.gz : 0.011187
-  99.nex.tar.gz : 0.004516
-  100.nex.tar.gz: 0.008209
-  101.nex.tar.gz: 0.012973
-  102.nex.tar.gz: 0.007583
-  103.nex.tar.gz: 0.008764
-  104.nex.tar.gz: 0.006509
-  105.nex.tar.gz: 0.008043
-  106.nex.tar.gz: 0.016243
-  107.nex.tar.gz: 0.012861
-  108.nex.tar.gz: 0.012487
-  109.nex.tar.gz: 0.011229
-  110.nex.tar.gz: 0.012057
-  111.nex.tar.gz: 0.010564
-  112.nex.tar.gz: 0.007734
-  113.nex.tar.gz: 0.008324
-  114.nex.tar.gz: 0.007423
-  115.nex.tar.gz: 0.003319
-  116.nex.tar.gz: 0.009322
-  117.nex.tar.gz: 0.014921
-  118.nex.tar.gz: 0.013895
-  119.nex.tar.gz: 0.007771
-  120.nex.tar.gz: 0.013780
-  121.nex.tar.gz: 0.009373
-  122.nex.tar.gz: 0.011048
-  123.nex.tar.gz: 0.011310
-  124.nex.tar.gz: 0.010840
-  125.nex.tar.gz: 0.023989
-  126.nex.tar.gz: 0.010832
-  127.nex.tar.gz: 0.009026
-  128.nex.tar.gz: 0.010296
-  129.nex.tar.gz: 0.010788
-  130.nex.tar.gz: 0.008839
-  131.nex.tar.gz: 0.008131
-  132.nex.tar.gz: 0.015833
-  133.nex.tar.gz: 0.008647
-  134.nex.tar.gz: 0.014395
-  135.nex.tar.gz: 0.026447
-  136.nex.tar.gz: 0.037417
-  137.nex.tar.gz: 0.010495
-  138.nex.tar.gz: 0.012617
-  139.nex.tar.gz: 0.010212
-  140.nex.tar.gz: 0.011439
-  141.nex.tar.gz: 0.010456
-  142.nex.tar.gz: 0.008663
-  143.nex.tar.gz: 0.010631
-  144.nex.tar.gz: 0.016540
-  145.nex.tar.gz: 0.011046
-  146.nex.tar.gz: 0.010332
-  147.nex.tar.gz: 0.049809
-  148.nex.tar.gz: 0.015237
-  149.nex.tar.gz: 0.013824
-  150.nex.tar.gz: 0.026949
-  151.nex.tar.gz: 0.013499
-  152.nex.tar.gz: 0.012399
-  153.nex.tar.gz: 0.009255
-  154.nex.tar.gz: 0.013248
-  155.nex.tar.gz: 0.011093
-  156.nex.tar.gz: 0.007049
-  157.nex.tar.gz: 0.011650
-  158.nex.tar.gz: 0.012577
-  159.nex.tar.gz: 0.005092
-  160.nex.tar.gz: 0.009025
-  161.nex.tar.gz: 0.012108
-  162.nex.tar.gz: 0.018455
-  163.nex.tar.gz: 0.008697
-  164.nex.tar.gz: 0.006339
-  165.nex.tar.gz: 0.012933
-  166.nex.tar.gz: 0.011018
-  167.nex.tar.gz: 0.015809
-  168.nex.tar.gz: 0.006736
-  169.nex.tar.gz: 0.005098
-  170.nex.tar.gz: 0.008388
-  171.nex.tar.gz: 0.009398
-  172.nex.tar.gz: 0.012826
-  173.nex.tar.gz: 0.009147
-  174.nex.tar.gz: 0.009661
-  175.nex.tar.gz: 0.011081
-  176.nex.tar.gz: 0.013713
-  177.nex.tar.gz: 0.010641
-  178.nex.tar.gz: 0.005521
-  179.nex.tar.gz: 0.009436
-  180.nex.tar.gz: 0.011073
-  181.nex.tar.gz: 0.016073
-  182.nex.tar.gz: 0.012786
-  183.nex.tar.gz: 0.013103
-  184.nex.tar.gz: 0.009184
-  185.nex.tar.gz: 0.047294
-  186.nex.tar.gz: 0.003981
-  187.nex.tar.gz: 0.006436
-  188.nex.tar.gz: 0.011649
-  189.nex.tar.gz: 0.009204
-  190.nex.tar.gz: 0.009873
-  191.nex.tar.gz: 0.005324
-  192.nex.tar.gz: 0.009041
-  193.nex.tar.gz: 0.002294
-  194.nex.tar.gz: 0.008449
-  195.nex.tar.gz: 0.022155
-  196.nex.tar.gz: 0.012000
-  197.nex.tar.gz: 0.019169
-  198.nex.tar.gz: 0.008682
-  199.nex.tar.gz: 0.009984
-  200.nex.tar.gz: 0.009721
-  201.nex.tar.gz: 0.010147
-  202.nex.tar.gz: 0.013584
-  203.nex.tar.gz: 0.011039
-  204.nex.tar.gz: 0.009465
-  205.nex.tar.gz: 0.013672
-  206.nex.tar.gz: 0.006584
-  207.nex.tar.gz: 0.008654
-  208.nex.tar.gz: 0.002594
-  209.nex.tar.gz: 0.013212
-  210.nex.tar.gz: 0.005305
-  211.nex.tar.gz: 0.005515
-  212.nex.tar.gz: 0.005834
-  213.nex.tar.gz: 0.013848
-  214.nex.tar.gz: 0.005935
-  215.nex.tar.gz: 0.014987
-  216.nex.tar.gz: 0.007839
-  217.nex.tar.gz: 0.007078
-  218.nex.tar.gz: 0.007203
-  219.nex.tar.gz: 0.009033
-  220.nex.tar.gz: 0.001980
-  221.nex.tar.gz: 0.005890
-  222.nex.tar.gz: 0.011740
-  223.nex.tar.gz: 0.008596
-  224.nex.tar.gz: 0.008092
-  225.nex.tar.gz: 0.008112
-  226.nex.tar.gz: 0.081806
-  227.nex.tar.gz: 0.009092
-  228.nex.tar.gz: 0.018873
-  229.nex.tar.gz: 0.007198
-  230.nex.tar.gz: 0.013729
-  231.nex.tar.gz: 0.005816
-  232.nex.tar.gz: 0.008676
-  233.nex.tar.gz: 0.011591
-  234.nex.tar.gz: 0.010746
-  235.nex.tar.gz: 0.005023
-  236.nex.tar.gz: 0.013577
-  237.nex.tar.gz: 0.012358
-  238.nex.tar.gz: 0.022312
-  239.nex.tar.gz: 0.006509
-  240.nex.tar.gz: 0.009456
-  241.nex.tar.gz: 0.020078
-  242.nex.tar.gz: 0.004209
-  243.nex.tar.gz: 0.008158
-  244.nex.tar.gz: 0.019615
-  245.nex.tar.gz: 0.021060
-  246.nex.tar.gz: 0.011180
-  247.nex.tar.gz: 0.007676
-  248.nex.tar.gz: 0.010113
-  249.nex.tar.gz: 0.008066
-  250.nex.tar.gz: 0.013339
-  251.nex.tar.gz: 0.013388
-  252.nex.tar.gz: 0.010239
-  253.nex.tar.gz: 0.005281
-  254.nex.tar.gz: 0.011113
-  255.nex.tar.gz: 0.005331
-  256.nex.tar.gz: 0.007156
-  257.nex.tar.gz: 0.007416
-  258.nex.tar.gz: 0.008506
-  259.nex.tar.gz: 0.010507
-  260.nex.tar.gz: 0.010068
-  261.nex.tar.gz: 0.017176
-  262.nex.tar.gz: 0.017568
-  263.nex.tar.gz: 0.006934
-  264.nex.tar.gz: 0.012923
-  265.nex.tar.gz: 0.007264
-  266.nex.tar.gz: 0.012550
-  267.nex.tar.gz: 0.011008
-  268.nex.tar.gz: 0.004069
-  269.nex.tar.gz: 0.008713
-  270.nex.tar.gz: 0.111154
-  271.nex.tar.gz: 0.006536
-  272.nex.tar.gz: 0.014474
-  273.nex.tar.gz: 0.009833
-  274.nex.tar.gz: 0.009332
-  275.nex.tar.gz: 0.019504
-  276.nex.tar.gz: 0.012686
-  277.nex.tar.gz: 0.006510
-  278.nex.tar.gz: 0.017137
-  279.nex.tar.gz: 0.007696
-  280.nex.tar.gz: 0.008693
-  281.nex.tar.gz: 0.009419
-  282.nex.tar.gz: 0.008997
-  283.nex.tar.gz: 0.007456
-  284.nex.tar.gz: 0.004255
-  285.nex.tar.gz: 0.010553
-  286.nex.tar.gz: 0.012943
-  287.nex.tar.gz: 0.007364
-  288.nex.tar.gz: 0.010224
-  289.nex.tar.gz: 0.010093
-  290.nex.tar.gz: 0.004452
-  291.nex.tar.gz: 0.010442
-  292.nex.tar.gz: 0.009371
-  293.nex.tar.gz: 0.008003
-  294.nex.tar.gz: 0.026161
-  295.nex.tar.gz: 0.008017
-  296.nex.tar.gz: 0.005575
-  297.nex.tar.gz: 0.011752
-  298.nex.tar.gz: 0.012697
-  299.nex.tar.gz: 0.013401
-  300.nex.tar.gz: 0.006272
-  301.nex.tar.gz: 0.007165
-  302.nex.tar.gz: 0.008288
-  303.nex.tar.gz: 0.012696
-  304.nex.tar.gz: 0.021104
-  305.nex.tar.gz: 0.015852
-  306.nex.tar.gz: 0.008958
-  307.nex.tar.gz: 0.010688
-  308.nex.tar.gz: 0.010504
-  309.nex.tar.gz: 0.010065
-  310.nex.tar.gz: 0.011865
-  311.nex.tar.gz: 0.214476
-  312.nex.tar.gz: 0.011281
-  313.nex.tar.gz: 0.012302
-  314.nex.tar.gz: 0.006381
-  315.nex.tar.gz: 0.003490
-  316.nex.tar.gz: 0.010327
-  317.nex.tar.gz: 0.009634
-  318.nex.tar.gz: 0.006812
-  319.nex.tar.gz: 0.014343
-  320.nex.tar.gz: 0.016176
-  321.nex.tar.gz: 0.025270
-  322.nex.tar.gz: 0.010764
-  323.nex.tar.gz: 0.019377
-  324.nex.tar.gz: 0.009645
-  325.nex.tar.gz: 0.009543
-  326.nex.tar.gz: 0.013120
-  327.nex.tar.gz: 0.007635
-  328.nex.tar.gz: 0.015228
-  329.nex.tar.gz: 0.012889
-  330.nex.tar.gz: 0.008354
-  331.nex.tar.gz: 0.006059
-  332.nex.tar.gz: 0.008232
-  333.nex.tar.gz: 0.007971
-  334.nex.tar.gz: 0.011804
-  335.nex.tar.gz: 0.011550
-  336.nex.tar.gz: 0.005060
-  337.nex.tar.gz: 0.010823
-  338.nex.tar.gz: 0.010894
-  339.nex.tar.gz: 0.011595
-  340.nex.tar.gz: 0.012036
-  341.nex.tar.gz: 0.004678
-  342.nex.tar.gz: 0.011952
-  343.nex.tar.gz: 0.012584
-  344.nex.tar.gz: 0.010342
-  345.nex.tar.gz: 0.018922
-  346.nex.tar.gz: 0.004644
-  347.nex.tar.gz: 0.014068
-  348.nex.tar.gz: 0.013585
-  349.nex.tar.gz: 0.018521
-  350.nex.tar.gz: 0.010793
-  351.nex.tar.gz: 0.015810
-  352.nex.tar.gz: 0.021953
-  353.nex.tar.gz: 0.011974
-  354.nex.tar.gz: 0.006764
-  355.nex.tar.gz: 0.001233
-  356.nex.tar.gz: 0.007092
-  357.nex.tar.gz: 0.013936
-  358.nex.tar.gz: 0.015627
-  359.nex.tar.gz: 0.013749
-  360.nex.tar.gz: 0.023445
-  361.nex.tar.gz: 0.014645
-  362.nex.tar.gz: 0.011432
-  363.nex.tar.gz: 0.009269
-  364.nex.tar.gz: 0.014100
-  365.nex.tar.gz: 0.008385
-  366.nex.tar.gz: 0.009302
-  367.nex.tar.gz: 0.009936
-  368.nex.tar.gz: 0.008902
-  369.nex.tar.gz: 0.009984
-  370.nex.tar.gz: 0.012166
-  371.nex.tar.gz: 0.022356
-5 gene(s) failed to meet the threshold of 0.05 (1.34%).
+  0.nex.tar.gz  : 0.008404
+  1.nex.tar.gz  : 0.003972
+  2.nex.tar.gz  : 0.010326
+  3.nex.tar.gz  : 0.006065
+  4.nex.tar.gz  : 0.004270
+  5.nex.tar.gz  : 0.012918
+  6.nex.tar.gz  : 0.005891
+  7.nex.tar.gz  : 0.007911
+  8.nex.tar.gz  : 0.011182
+  9.nex.tar.gz  : 0.006456
+  10.nex.tar.gz : 0.020304
+  11.nex.tar.gz : 0.002545
+  12.nex.tar.gz : 0.000892
+  13.nex.tar.gz : 0.004311
+  14.nex.tar.gz : 0.015637
+  15.nex.tar.gz : 0.006034
+  16.nex.tar.gz : 0.045463
+  17.nex.tar.gz : 0.005502
+  18.nex.tar.gz : 0.012064
+  19.nex.tar.gz : 0.006001
+  20.nex.tar.gz : 0.006912
+  21.nex.tar.gz : 0.004215
+  22.nex.tar.gz : 0.000471
+  23.nex.tar.gz : 0.007386
+  24.nex.tar.gz : 0.005687
+  25.nex.tar.gz : 0.005101
+  26.nex.tar.gz : 0.004211
+  27.nex.tar.gz : 0.002796
+  28.nex.tar.gz : 0.003882
+  29.nex.tar.gz : 0.007405
+  30.nex.tar.gz : 0.000785
+  31.nex.tar.gz : 0.003428
+  32.nex.tar.gz : 0.008115
+  33.nex.tar.gz : 0.016229
+  34.nex.tar.gz : 0.006179
+  35.nex.tar.gz : 0.006960
+  36.nex.tar.gz : 0.015773
+  37.nex.tar.gz : 0.004938
+  38.nex.tar.gz : 0.006480
+  39.nex.tar.gz : 0.005311
+  40.nex.tar.gz : 0.005746
+  41.nex.tar.gz : 0.002670
+  42.nex.tar.gz : 0.004320
+  43.nex.tar.gz : 0.005487
+  44.nex.tar.gz : 0.003707
+  45.nex.tar.gz : 0.008095
+  46.nex.tar.gz : 0.001948
+  47.nex.tar.gz : 0.006394
+  48.nex.tar.gz : 0.003927
+  49.nex.tar.gz : 0.073622
+  50.nex.tar.gz : 0.004490
+  51.nex.tar.gz : 0.005794
+  52.nex.tar.gz : 0.024522
+  53.nex.tar.gz : 0.001744
+  54.nex.tar.gz : 0.007799
+  55.nex.tar.gz : 0.004663
+  56.nex.tar.gz : 0.008674
+  57.nex.tar.gz : 0.007055
+  58.nex.tar.gz : 0.007422
+  59.nex.tar.gz : 0.024262
+  60.nex.tar.gz : 0.007691
+  61.nex.tar.gz : 0.004271
+  62.nex.tar.gz : 0.005841
+  63.nex.tar.gz : 0.003888
+  64.nex.tar.gz : 0.006199
+  65.nex.tar.gz : 0.011478
+  66.nex.tar.gz : 0.002003
+  67.nex.tar.gz : 0.004661
+  68.nex.tar.gz : 0.017043
+  69.nex.tar.gz : 0.007706
+  70.nex.tar.gz : 0.007038
+  71.nex.tar.gz : 0.003634
+  72.nex.tar.gz : 0.006210
+  73.nex.tar.gz : 0.001704
+  74.nex.tar.gz : 0.005985
+  75.nex.tar.gz : 0.258608
+  76.nex.tar.gz : 0.002633
+  77.nex.tar.gz : 0.026598
+  78.nex.tar.gz : 0.004639
+  79.nex.tar.gz : 0.010828
+  80.nex.tar.gz : 0.006947
+  81.nex.tar.gz : 0.007614
+  82.nex.tar.gz : 0.005631
+  83.nex.tar.gz : 0.330515
+  84.nex.tar.gz : 0.005616
+  85.nex.tar.gz : 0.005627
+  86.nex.tar.gz : 0.012935
+  87.nex.tar.gz : 0.166260
+  88.nex.tar.gz : 0.005143
+  89.nex.tar.gz : 0.004061
+  90.nex.tar.gz : 0.006205
+  91.nex.tar.gz : 0.020998
+  92.nex.tar.gz : 0.001445
+  93.nex.tar.gz : 0.006037
+  94.nex.tar.gz : 0.006861
+  95.nex.tar.gz : 0.010697
+  96.nex.tar.gz : 0.004464
+  97.nex.tar.gz : 0.005593
+  98.nex.tar.gz : 0.012156
+  99.nex.tar.gz : 0.001822
+  100.nex.tar.gz: 0.002089
+  101.nex.tar.gz: 0.008157
+  102.nex.tar.gz: 0.004877
+  103.nex.tar.gz: 0.006332
+  104.nex.tar.gz: 0.003313
+  105.nex.tar.gz: 0.003186
+  106.nex.tar.gz: 0.010525
+  107.nex.tar.gz: 0.006692
+  108.nex.tar.gz: 0.006362
+  109.nex.tar.gz: 0.007441
+  110.nex.tar.gz: 0.004290
+  111.nex.tar.gz: 0.004849
+  112.nex.tar.gz: 0.004435
+  113.nex.tar.gz: 0.002755
+  114.nex.tar.gz: 0.001602
+  115.nex.tar.gz: 0.002388
+  116.nex.tar.gz: 0.006761
+  117.nex.tar.gz: 0.015125
+  118.nex.tar.gz: 0.041567
+  119.nex.tar.gz: 0.004015
+  120.nex.tar.gz: 0.007964
+  121.nex.tar.gz: 0.003676
+  122.nex.tar.gz: 0.006461
+  123.nex.tar.gz: 0.007245
+  124.nex.tar.gz: 0.005796
+  125.nex.tar.gz: 0.020264
+  126.nex.tar.gz: 0.005581
+  127.nex.tar.gz: 0.004589
+  128.nex.tar.gz: 0.006057
+  129.nex.tar.gz: 0.007540
+  130.nex.tar.gz: 0.007983
+  131.nex.tar.gz: 0.003396
+  132.nex.tar.gz: 0.009551
+  133.nex.tar.gz: 0.003240
+  134.nex.tar.gz: 0.011938
+  135.nex.tar.gz: 0.015596
+  136.nex.tar.gz: 0.028200
+  137.nex.tar.gz: 0.000634
+  138.nex.tar.gz: 0.005074
+  139.nex.tar.gz: 0.007229
+  140.nex.tar.gz: 0.008499
+  141.nex.tar.gz: 0.006705
+  142.nex.tar.gz: 0.003756
+  143.nex.tar.gz: 0.008511
+  144.nex.tar.gz: 0.011433
+  145.nex.tar.gz: 0.005089
+  146.nex.tar.gz: 0.004175
+  147.nex.tar.gz: 0.033313
+  148.nex.tar.gz: 0.005147
+  149.nex.tar.gz: 0.011441
+  150.nex.tar.gz: 0.009593
+  151.nex.tar.gz: 0.007187
+  152.nex.tar.gz: 0.010866
+  153.nex.tar.gz: 0.004449
+  154.nex.tar.gz: 0.009454
+  155.nex.tar.gz: 0.005355
+  156.nex.tar.gz: 0.000652
+  157.nex.tar.gz: 0.004830
+  158.nex.tar.gz: 0.010633
+  159.nex.tar.gz: 0.006209
+  160.nex.tar.gz: 0.002859
+  161.nex.tar.gz: 0.006403
+  162.nex.tar.gz: 0.021987
+  163.nex.tar.gz: 0.003489
+  164.nex.tar.gz: 0.005756
+  165.nex.tar.gz: 0.008196
+  166.nex.tar.gz: 0.007049
+  167.nex.tar.gz: 0.006362
+  168.nex.tar.gz: 0.002190
+  169.nex.tar.gz: 0.000652
+  170.nex.tar.gz: 0.027653
+  171.nex.tar.gz: 0.007181
+  172.nex.tar.gz: 0.006205
+  173.nex.tar.gz: 0.004973
+  174.nex.tar.gz: 0.002827
+  175.nex.tar.gz: 0.005827
+  176.nex.tar.gz: 0.005446
+  177.nex.tar.gz: 0.003534
+  178.nex.tar.gz: 0.003204
+  179.nex.tar.gz: 0.005581
+  180.nex.tar.gz: 0.008524
+  181.nex.tar.gz: 0.006611
+  182.nex.tar.gz: 0.006951
+  183.nex.tar.gz: 0.005850
+  184.nex.tar.gz: 0.005289
+  185.nex.tar.gz: 0.007582
+  186.nex.tar.gz: 0.002341
+  187.nex.tar.gz: 0.002686
+  188.nex.tar.gz: 0.012507
+  189.nex.tar.gz: 0.004061
+  190.nex.tar.gz: 0.005529
+  191.nex.tar.gz: 0.002199
+  192.nex.tar.gz: 0.003344
+  193.nex.tar.gz: 0.000673
+  194.nex.tar.gz: 0.006899
+  195.nex.tar.gz: 0.007742
+  196.nex.tar.gz: 0.006886
+  197.nex.tar.gz: 0.022006
+  198.nex.tar.gz: 0.003968
+  199.nex.tar.gz: 0.005581
+  200.nex.tar.gz: 0.004323
+  201.nex.tar.gz: 0.006676
+  202.nex.tar.gz: 0.008141
+  203.nex.tar.gz: 0.006625
+  204.nex.tar.gz: 0.006440
+  205.nex.tar.gz: 0.003841
+  206.nex.tar.gz: 0.009490
+  207.nex.tar.gz: 0.005738
+  208.nex.tar.gz: 0.001498
+  209.nex.tar.gz: 0.001665
+  210.nex.tar.gz: 0.004214
+  211.nex.tar.gz: 0.002315
+  212.nex.tar.gz: 0.003635
+  213.nex.tar.gz: 0.009543
+  214.nex.tar.gz: 0.003755
+  215.nex.tar.gz: 0.002345
+  216.nex.tar.gz: 0.000580
+  217.nex.tar.gz: 0.002283
+  218.nex.tar.gz: 0.002469
+  219.nex.tar.gz: 0.003521
+  220.nex.tar.gz: 0.003215
+  221.nex.tar.gz: 0.004178
+  222.nex.tar.gz: 0.004539
+  223.nex.tar.gz: 0.002121
+  224.nex.tar.gz: 0.005905
+  225.nex.tar.gz: 0.003487
+  226.nex.tar.gz: 0.121647
+  227.nex.tar.gz: 0.004724
+  228.nex.tar.gz: 0.014636
+  229.nex.tar.gz: 0.007938
+  230.nex.tar.gz: 0.005395
+  231.nex.tar.gz: 0.001555
+  232.nex.tar.gz: 0.005667
+  233.nex.tar.gz: 0.005648
+  234.nex.tar.gz: 0.006205
+  235.nex.tar.gz: 0.001834
+  236.nex.tar.gz: 0.009178
+  237.nex.tar.gz: 0.009624
+  238.nex.tar.gz: 0.013141
+  239.nex.tar.gz: 0.003181
+  240.nex.tar.gz: 0.005983
+  241.nex.tar.gz: 0.016494
+  242.nex.tar.gz: 0.003063
+  243.nex.tar.gz: 0.004114
+  244.nex.tar.gz: 0.019036
+  245.nex.tar.gz: 0.006715
+  246.nex.tar.gz: 0.008731
+  247.nex.tar.gz: 0.002971
+  248.nex.tar.gz: 0.007335
+  249.nex.tar.gz: 0.002749
+  250.nex.tar.gz: 0.006541
+  251.nex.tar.gz: 0.011128
+  252.nex.tar.gz: 0.006588
+  253.nex.tar.gz: 0.002814
+  254.nex.tar.gz: 0.002827
+  255.nex.tar.gz: 0.002003
+  256.nex.tar.gz: 0.001555
+  257.nex.tar.gz: 0.004383
+  258.nex.tar.gz: 0.006201
+  259.nex.tar.gz: 0.009979
+  260.nex.tar.gz: 0.014990
+  261.nex.tar.gz: 0.011752
+  262.nex.tar.gz: 0.011274
+  263.nex.tar.gz: 0.003243
+  264.nex.tar.gz: 0.005207
+  265.nex.tar.gz: 0.008594
+  266.nex.tar.gz: 0.005920
+  267.nex.tar.gz: 0.005757
+  268.nex.tar.gz: 0.007471
+  269.nex.tar.gz: 0.005666
+  270.nex.tar.gz: 0.006597
+  271.nex.tar.gz: 0.005726
+  272.nex.tar.gz: 0.007832
+  273.nex.tar.gz: 0.005364
+  274.nex.tar.gz: 0.005600
+  275.nex.tar.gz: 0.030423
+  276.nex.tar.gz: 0.003741
+  277.nex.tar.gz: 0.007501
+  278.nex.tar.gz: 0.004536
+  279.nex.tar.gz: 0.006362
+  280.nex.tar.gz: 0.006435
+  281.nex.tar.gz: 0.006287
+  282.nex.tar.gz: 0.003842
+  283.nex.tar.gz: 0.004663
+  284.nex.tar.gz: 0.001582
+  285.nex.tar.gz: 0.004957
+  286.nex.tar.gz: 0.027391
+  287.nex.tar.gz: 0.004385
+  288.nex.tar.gz: 0.003299
+  289.nex.tar.gz: 0.013534
+  290.nex.tar.gz: 0.003786
+  291.nex.tar.gz: 0.006461
+  292.nex.tar.gz: 0.005778
+  293.nex.tar.gz: 0.005140
+  294.nex.tar.gz: 0.031477
+  295.nex.tar.gz: 0.003393
+  296.nex.tar.gz: 0.004055
+  297.nex.tar.gz: 0.004355
+  298.nex.tar.gz: 0.003988
+  299.nex.tar.gz: 0.012357
+  300.nex.tar.gz: 0.002315
+  301.nex.tar.gz: 0.005251
+  302.nex.tar.gz: 0.002577
+  303.nex.tar.gz: 0.006806
+  304.nex.tar.gz: 0.007930
+  305.nex.tar.gz: 0.012183
+  306.nex.tar.gz: 0.004129
+  307.nex.tar.gz: 0.005166
+  308.nex.tar.gz: 0.004047
+  309.nex.tar.gz: 0.005882
+  310.nex.tar.gz: 0.007147
+  311.nex.tar.gz: 0.045486
+  312.nex.tar.gz: 0.008107
+  313.nex.tar.gz: 0.009618
+  314.nex.tar.gz: 0.003637
+  315.nex.tar.gz: 0.002289
+  316.nex.tar.gz: 0.006670
+  317.nex.tar.gz: 0.005779
+  318.nex.tar.gz: 0.001750
+  319.nex.tar.gz: 0.018932
+  320.nex.tar.gz: 0.004887
+  321.nex.tar.gz: 0.008093
+  322.nex.tar.gz: 0.006452
+  323.nex.tar.gz: 0.015659
+  324.nex.tar.gz: 0.003386
+  325.nex.tar.gz: 0.008097
+  326.nex.tar.gz: 0.002962
+  327.nex.tar.gz: 0.000956
+  328.nex.tar.gz: 0.007952
+  329.nex.tar.gz: 0.013827
+  330.nex.tar.gz: 0.005720
+  331.nex.tar.gz: 0.001704
+  332.nex.tar.gz: 0.005920
+  333.nex.tar.gz: 0.011864
+  334.nex.tar.gz: 0.012763
+  335.nex.tar.gz: 0.006663
+  336.nex.tar.gz: 0.004560
+  337.nex.tar.gz: 0.005724
+  338.nex.tar.gz: 0.025426
+  339.nex.tar.gz: 0.005296
+  340.nex.tar.gz: 0.111822
+  341.nex.tar.gz: 0.006921
+  342.nex.tar.gz: 0.007060
+  343.nex.tar.gz: 0.021951
+  344.nex.tar.gz: 0.006315
+  345.nex.tar.gz: 0.018638
+  346.nex.tar.gz: 0.001696
+  347.nex.tar.gz: 0.017267
+  348.nex.tar.gz: 0.007676
+  349.nex.tar.gz: 0.005320
+  350.nex.tar.gz: 0.009351
+  351.nex.tar.gz: 0.015969
+  352.nex.tar.gz: 0.005057
+  353.nex.tar.gz: 0.004182
+  354.nex.tar.gz: 0.003452
+  355.nex.tar.gz: 0.000308
+  356.nex.tar.gz: 0.004061
+  357.nex.tar.gz: 0.006352
+  358.nex.tar.gz: 0.006899
+  359.nex.tar.gz: 0.005364
+  360.nex.tar.gz: 0.016444
+  361.nex.tar.gz: 0.011251
+  362.nex.tar.gz: 0.008269
+  363.nex.tar.gz: 0.006016
+  364.nex.tar.gz: 0.009048
+  365.nex.tar.gz: 0.006813
+  366.nex.tar.gz: 0.004241
+  367.nex.tar.gz: 0.006854
+  368.nex.tar.gz: 0.002055
+  369.nex.tar.gz: 0.005239
+  370.nex.tar.gz: 0.006021
+  371.nex.tar.gz: 0.004851
+6 gene(s) failed to meet the threshold of 0.05 (1.61%).
 ```
 
-We can run the chain for longer to allow all genes to reach convergence, but for now, we will ignore the lack of convergence of 5 genes.
+We can run the chain for longer to allow all genes to reach convergence, but for now, we will ignore the lack of convergence of 6 genes.
 
 {: .warning }
 The TICR repo has the option to delete the genes that did not converge, but it has an error and it can end up deleting the whole `mb-output` folder, so we are not running that option.
 
 {: .note }
-We are using MrBayes here, but we could use any method to estimate gene trees as described in the [PhyloNetworks wiki](https://github.com/crsl4/PhyloNetworks.jl/wiki/Gene-Trees:-RAxML).
+We are using MrBayes here, but we could use any method to estimate gene trees as described in the [PhyloUtilities website](https://juliaphylo.github.io/PhyloUtilities/notebooks/Gene-Trees-RAxML.html).
 
 # 2. Running BUCKy on the posterior distributions of gene trees
 
-We now run BUCKy to estimate the concordance factors from the posterior distributions of gene trees from MrBayes. This script will run BUCKy on every 4-taxon subset (1820 in this case for 16 taxa). Note that this analysis will take ~3 hours on a single laptop.
+We now run BUCKy to estimate the concordance factors from the posterior distributions of gene trees from MrBayes. This script will run BUCKy on every 4-taxon subset (1820 in this case for 16 taxa). Note that this analysis will take ~1 hour on a single laptop.
 
 ```
 $ ../../TICR/scripts/bucky.pl mb-output/nexus.mb.tar -o bucky-output
@@ -481,15 +481,12 @@ perl bucky.pl mb-output/nexus.mb.tar -o bucky-output
 
 Found 16 taxa shared across all genes in this archive, 1820 of 1820 possible quartets will be run using output from 372 total genes.
 Summarizing MrBayes output for 372 genes.
-Job server successfully created.
-Use of uninitialized value $server_ip in scalar chomp at ../../TICR/scripts/bucky.pl line 456.
-Use of uninitialized value $server_ip in pattern match (m//) at ../../TICR/scripts/bucky.pl line 457.
 Could not determine external IP address, only local clients will be created.
 Job server successfully created.
 
   Analyses complete: 1820/1820.
   All connections closed.
-Total execution time: 3 hours, 35 minutes, 27 seconds.
+Total execution time: 48 minutes, 10 seconds.
 ```
 
 ## 2.1 Output for BUCKy
@@ -504,7 +501,7 @@ The `.csv` file (spreadsheet) lists all the 4-taxon sets and their estimated qua
 concordance factors which will be the input for SNaQ.
 
 {: .note }
-We use BUCKy to account for gene tree estimation error, but we could skip this step and use gene trees directly as input in SNaQ as described in the [PhyloNetworks wiki](https://github.com/crsl4/PhyloNetworks.jl/wiki/Gene-Trees:-RAxML).
+We use BUCKy to account for gene tree estimation error, but we could skip this step and use gene trees directly as input in SNaQ as described in the [PhyloUtilities website](https://juliaphylo.github.io/PhyloUtilities/notebooks/Gene-Trees-RAxML.html).
 
 # 3. Estimating a population tree with Quartet MaxCut
 
@@ -513,7 +510,7 @@ The optimization algorithm within SNaQ is complex, so a good starting point to h
 We will use Quartet MaxCut (QMC) to estimate a starting population tree because the input data for QMC is the same table of concordance factors.
 
 ```
-$ ../../TICR/scripts/get-pop-tree.pl bucky-output/nexus.CFs.csv
+$ ../../PhyloUtilities/scripts/get-pop-tree.pl bucky-output/nexus.CFs.csv
 
 Script was called as follows:
 perl get-pop-tree.pl bucky-output/nexus.CFs.csv
@@ -530,9 +527,6 @@ Number of quartets is 1820, max element 16
 
 Number of quartets read: 1820, max ele 16
 
-Started working at  Fri Oct 27 14:57:25 2023
-Ended working at  Fri Oct 27 14:57:25 2023
-
 Quartet Max Cut complete, tree located in 'nexus.QMC.tre'.
 ```
 
@@ -547,7 +541,7 @@ The input for SNaQ will then be:
 - starting topology in `nexus.QMC.tre`
 - table of concordance factors in `nexus.CFs.csv`
 
-We note that there is an alternative pipeline in which estimated gene trees are used as input directly for SNaQ. In this approach, we can estimate the gene trees with any method like [RAxML](https://github.com/amkozlov/raxml-ng) or [IQ-Tree](http://www.iqtree.org/), and it is described in the [PhyloNetworks wiki](https://github.com/crsl4/PhyloNetworks.jl/wiki/Gene-Trees:-RAxML).
+We note that there is an alternative pipeline in which estimated gene trees are used as input directly for SNaQ. In this approach, we can estimate the gene trees with any method like [RAxML](https://github.com/amkozlov/raxml-ng) or [IQ-Tree](http://www.iqtree.org/), and it is described in the [PhyloUtilities website](https://juliaphylo.github.io/PhyloUtilities/notebooks/Gene-Trees-RAxML.html).
 
 ## Moving files out of the Docker container into local machine
 

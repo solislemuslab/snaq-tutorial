@@ -6,7 +6,7 @@ nav_order: 1
 
 # SNaQ Tutorial: from alignments to phylogenetic network
 
-This website has an alternative tutorial for SNaQ to the one in the [PhyloUtilities website](https://juliaphylo.github.io/PhyloUtilities/). Here, we provide an alternative set-up using a Docker for the installation of dependencies and we use a real dataset (baobabs) to illustrate the pipeline from multilocus alignments to phylogenetic network.
+This website has an alternative tutorial for SNaQ to the one in the [PhyloUtilities website](https://juliaphylo.github.io/PhyloUtilities/). Here, we provide an alternative (optional) set-up using a Docker for the installation of dependencies and we use a real dataset (baobabs) to illustrate the pipeline from multilocus alignments to phylogenetic network.
 
 
 {: .highlight }

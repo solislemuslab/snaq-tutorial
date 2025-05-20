@@ -1,0 +1,9 @@
+begin mrbayes;
+set nowarnings=yes;
+set autoclose=yes;
+lset nst=2;
+mcmcp ngen=200000 burninfrac=.25 samplefreq=50 printfreq=10000 [increase these for real]
+diagnfreq=10000 nruns=2 nchains=2 temp=0.40 swapfreq=10;       [increase for real analysis]
+mcmc;
+sumt;
+end;
