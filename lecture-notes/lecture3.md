@@ -543,7 +543,12 @@ The input for SNaQ will then be:
 
 We note that there is an alternative pipeline in which estimated gene trees are used as input directly for SNaQ. In this approach, we can estimate the gene trees with any method like [RAxML](https://github.com/amkozlov/raxml-ng) or [IQ-Tree](http://www.iqtree.org/), and it is described in the [PhyloUtilities website](https://juliaphylo.github.io/PhyloUtilities/notebooks/Gene-Trees-RAxML.html).
 
-## Moving files out of the Docker container into local machine
+# TICR goodness of fit test
+
+As part of the TICR pipeline, we can test whether a tree is a good enough fit for the gene trees. More information about this test can be found in the [PhyloUtilities website](https://juliaphylo.github.io/PhyloUtilities/notebooks/TICR-test-tree-versus-network.html).
+
+
+# Moving files out of the Docker container into local machine
 
 For those running the commands in a Docker container, we need to bring back these output files into your local machine.
 
