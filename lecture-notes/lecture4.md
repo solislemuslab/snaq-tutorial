@@ -144,7 +144,7 @@ SNaQ can infer hybridizations with extinct or unsampled taxa (ghost lineages). T
 
 <div style="text-align:center"><img src="../images/net7taxa-options.png" width="750"/></div>
 
-## Bootstrapping
+# Bootstrapping
 
 You need as input:
 
@@ -153,18 +153,34 @@ You need as input:
   - bootstrap gene trees from RAxML (same format that ASTRAL uses)
 - a starting topology
 
-### 1. Reading in data
+## 1. Reading in data
 
 We will focus on the case of CF credibility intervals:
 
 ```julia
 using CSV, DataFrames
-buckyDat = CSV.read("nexus.CFs.csv", DataFrame) # names like: CF12.34, CF12.34_lo etc.
+buckyDat = CSV.read("nexus.CFs.csv", DataFrame) # names like: CF12_34, CF12_34_lo etc.
 ```
 
-### 2. Running bootstrap
+In this case, the column names are not `CF12_34`, but `CF12.34`, so we need to change the column names:
+
 ```julia
-bootnet = bootsnaq(tre, buckyDat, hmax=1, nrep=10, runs=1,
+buckyDat2 = rename(buckyDat, ["taxon1", "taxon2", "taxon3", "taxon4", 
+ "CF12_34", 
+ "CF12_34_lo",
+ "CF12_34_hi",
+ "CF13_24",
+ "CF13_24_lo",
+ "CF13_24_hi",
+ "CF14_23",
+ "CF14_23_lo",
+ "CF14_23_hi",
+ "ngenes"]) # rename columns
+```
+
+## 2. Running bootstrap
+```julia
+bootnet = bootsnaq(tre, buckyDat2, hmax=1, nrep=10, runs=1,
                    filename="bootsnaq1", ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4)
 ```
 
@@ -177,13 +193,13 @@ The options we are using are:
 - `ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4`: optimization tolerances chosen so that the run is fast. For your analyses, you do not need to specify these quantities and simply use the defaults 
 
 
-### 3. Bootstrap summary
+## 3. Bootstrap summary
 
 If you close your session after having generated these bootstrap networks, you can
 read them from the output file later, in a new session.
 This output file ends in `.out`, so you would do this:
 ```julia
-bootnet = readMultiTopology("bootsnaq1.out");
+bootnet = readmultinewick("bootsnaq1.out");
 ```
 
 To make summaries, it's best to re-read the reference network (best,
@@ -191,17 +207,17 @@ estimated network) from file, to get a consistent numbering of nodes and edges.
 Here, we re-read from file, re-root the network correctly.
 
 ```julia
-net1 = readTopology("net1_snaq.out")
+net1 = readnewick("net1_snaq.out")
 rootatnode!(net1, "Smi165")
 ```
 
 
-#### 3.1 Bootstrap summary of tree edges
+### 3.1 Bootstrap summary of tree edges
 
 Similarly to how we compute bootstrap support on species trees, we simply count the number of times each edge in the major tree from the estimated network appears in the bootstrap major trees.
 
 ```julia
-BSe_tree, tree1 = treeEdgesBootstrap(bootnet,net1)
+BSe_tree, tree1 = treeedges_support(bootnet,net1)
 ```
 where `tree1` is the major tree in `net1` (the best network estimated with the original data)
 and `BSe_tree` is a data frame with the bootstrap support that each tree edge is found
@@ -213,19 +229,19 @@ julia> show(BSe_tree, allrows=true)
  Row │ edgeNumber  proportion 
      │ Int64       Float64    
 ─────┼────────────────────────
-   1 │          6       100.0
-   2 │         28       100.0
-   3 │          9       100.0
-   4 │         27       100.0
-   5 │         20       100.0
-   6 │         18       100.0
-   7 │         14       100.0
-   8 │         12       100.0
-   9 │         17       100.0
-  10 │         25       100.0
-  11 │         23       100.0
-  12 │         29       100.0
-  13 │         32       100.0
+   1 │          4       100.0
+   2 │         26       100.0
+   3 │          7       100.0
+   4 │         25       100.0
+   5 │         18       100.0
+   6 │         16       100.0
+   7 │         12       100.0
+   8 │         10       100.0
+   9 │         15       100.0
+  10 │         23       100.0
+  11 │         22       100.0
+  12 │         27       100.0
+  13 │         30       100.0
 ```
 
 In this case, all the tree edges have 100% bootstrap support. The following command would allow us to list the edges that do not have 100% bootstrap support (in this case, this data frame is empty):
@@ -240,13 +256,13 @@ The command will only label the edges with
 bootstrap support less than 100%.
 
 ```julia
-plot(net1,  :R, edgeLabel=BSe_tree[BSe_tree[!,:proportion] .< 100.0, :]);
+plot(net1, edgelabel=BSe_tree[BSe_tree[!,:proportion] .< 100.0, :]);
 ```
 
 In this case, the plot is the same as before because all edges have 100% bootstrap support,
 so we do not show it.
 
-#### 3.2 Bootstrap summary of hybridization events
+### 3.2 Bootstrap summary of hybridization events
 
 Summarizing bootstrap support on hybridization events is not straightforward because
 different edges could correspond to the same split in taxa.
@@ -262,7 +278,7 @@ The following function computes the proportion of times that different clades
 appear as hybrid, major sister or minor sister in the bootstrap networks:
 
 ```julia
-BSn, BSe, BSc, BSgam, BSedgenum = hybridBootstrapSupport(bootnet, net1);
+BSn, BSe, BSc, BSgam, BSedgenum = hybridclades_support(bootnet, net1);
 ```
 - `BSn` is a table of bootstrap frequencies associated with **n**odes
 - `BSe` is a table of bootstrap frequencies associated with **e**dges, and
@@ -272,100 +288,96 @@ First, we plot the proportion of times that the major and minor hybrid edges of 
 network appear in the bootstrap networks:
 
 ```julia
-plot(net1, :R, edgeLabel=BSe[!,[:edge,:BS_hybrid_edge]]);
+plot(net1, edgelabel=BSe[!,[:edge,:BS_hybrid_edge]]);
 ```
 
 <div style="text-align:center"><img src="../images/net1-bse.png" width="750"/></div>
 
-In this case, there are only 10% of bootstrap networks that have the major hybrid edge, 
-and 0% bootstrap networks that have the minor hybrid edge. Recall that we only ran 10 bootstrap replicates with 1 run each, so the runs have likely not converged in this case.
+In this case, there are 0% of bootstrap networks that have the major hybrid edge and 0% bootstrap networks that have the minor hybrid edge. Recall that we only ran 10 bootstrap replicates with 1 run each, so the runs have likely not converged in this case.
 
 What do the remaining bootstrap networks have?
 
 ```julia
 julia> BSe
-15×8 DataFrame
- Row │ edge     hybrid_clade  hybrid  sister_clade  sister  BS_hybrid_edge  BS_major  BS_m ⋯
-     │ Int64?   String        Int64?  String        Int64?  Float64         Float64   Floa ⋯
-─────┼──────────────────────────────────────────────────────────────────────────────────────
-   1 │      26  H21               17  c_minus10        -10            10.0      10.0       ⋯
-   2 │      30  H21               17  c_minus3          -3             0.0       0.0
-   3 │ missing  Ape001            11  Ape009            12            30.0      30.0
-   4 │ missing  Ape009            12  Ape001            11            20.0      20.0
-   5 │ missing  Ape009            12  Aza037            10            20.0       0.0       ⋯
-   6 │ missing  Ape001            11  H21              -16            20.0       0.0
-   7 │ missing  Smi165             5  Age001             4            20.0      20.0
-   8 │ missing  Smi165             5  c_minus13        -13            10.0       0.0
-   9 │ missing  Ape001            11  c_minus9          -9            10.0       0.0       ⋯
-  10 │ missing  c_minus10        -10  H21              -16            10.0      10.0
-  11 │ missing  c_minus10        -10  c_minus8          -8            10.0       0.0
-  12 │ missing  H21               17  Age001             4            10.0       0.0
-  13 │ missing  Smi165             5  c_minus12        -12            10.0       0.0       ⋯
-  14 │ missing  c_minus8          -8  c_minus7          -7            10.0      10.0
-  15 │ missing  c_minus8          -8  Ama006             9            10.0       0.0
+16×8 DataFrame
+ Row │ edge     hybrid_clade  hybrid   sister_clade  sister  BS_hybrid_edge  BS_major  BS_minor 
+     │ Int64?   String        Int64?   String        Int64?  Float64         Float64   Float64  
+─────┼──────────────────────────────────────────────────────────────────────────────────────────
+   1 │      24  H17                15  c_minus10        -10             0.0       0.0       0.0
+   2 │      28  H17                15  c_minus3          -3             0.0       0.0       0.0
+   3 │ missing  Ape001              9  Ape009            10            30.0      30.0       0.0
+   4 │ missing  Ape001              9  H17              -16            30.0       0.0      30.0
+   5 │ missing  c_34          missing  Aza135            11            20.0      20.0       0.0
+   6 │ missing  c_34          missing  Ape001             9            20.0       0.0      20.0
+   7 │ missing  Smi165              2  Age001             3            10.0      10.0       0.0
+   8 │ missing  Smi165              2  Ama006             7            10.0       0.0      10.0
+   9 │ missing  Adi002             17  Adi003            16            10.0      10.0       0.0
+  10 │ missing  Adi002             17  Aru001             4            10.0       0.0      10.0
+  11 │ missing  c_35          missing  c_minus8          -8            10.0      10.0       0.0
+  12 │ missing  c_35          missing  H17              -16            10.0       0.0      10.0
+  13 │ missing  c_minus2           -2  Adi001             1            10.0      10.0       0.0
+  14 │ missing  c_minus2           -2  Ama018             6            10.0       0.0      10.0
+  15 │ missing  Aru001              4  Aru127             5            10.0      10.0       0.0
+  16 │ missing  Aru001              4  Age001             3            10.0       0.0      10.0
 ```
 
-We can understand the meaning of each column with `? hybridBootstrapSupport` in julia.
+We can understand the meaning of each column with `? hybridclade_support` in julia.
 We can see, for example, that in 30% of the bootstrap networks there is a hybrid edge 
 from `Ape001` to `Ape009`. Because `BS_major` is also 30, we conclude that this edge appears as the major hybrid edge in 30% of the bootstrap networks. We note that this edge does not appear in the estimated network (`net1`) since the column `edge` is `missing`.
 
-Sometimes, there is not a taxon name, but a clade, like `c_minus10`, for example, in the first row. The information of which clade this represents can be found in the `BSc` data frame:
+Sometimes, there is not a taxon name, but a clade, like `c_minus8`. The information of which clade this represents can be found in the `BSc` data frame:
 
 ```julia
 julia> BSc
-16×14 DataFrame
- Row │ taxa    Age001  Smi165  c_minus8  Ama006  c_minus13  Aza037  c_minus12  Ape001  Ape009  c_minus10  H21    c_minus9  c_minus7 
-     │ String  Bool    Bool    Bool      Bool    Bool       Bool    Bool       Bool    Bool    Bool       Bool   Bool      Bool     
-─────┼──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-   1 │ Adi002   false   false     false   false      false   false      false   false   false      false  false     false     false
-   2 │ Adi003   false   false     false   false      false   false      false   false   false      false  false     false     false
-   3 │ Adi001   false   false     false   false      false   false      false   false   false      false  false     false     false
-   4 │ Age001    true   false     false   false      false   false      false   false   false      false  false     false     false
-   5 │ Smi165   false    true     false   false      false   false      false   false   false      false  false     false     false
-   6 │ Aru127   false   false      true   false      false   false      false   false   false      false  false     false      true
-   7 │ Aru001   false   false      true   false      false   false      false   false   false      false  false     false      true
-   8 │ Ama018   false   false     false   false       true   false       true   false   false       true  false      true      true
-   9 │ Ama006   false   false     false    true       true   false       true   false   false       true  false      true      true
-  10 │ Aza037   false   false     false   false      false    true       true   false   false       true  false      true      true
-  11 │ Ape001   false   false     false   false      false   false      false    true   false       true  false      true      true
-  12 │ Ape009   false   false     false   false      false   false      false   false    true       true  false      true      true
-  13 │ Aza135   false   false     false   false      false   false      false   false   false       true  false      true      true
-  14 │ Aga002   false   false     false   false      false   false      false   false   false      false   true      true      true
-  15 │ Aga001   false   false     false   false      false   false      false   false   false      false   true      true      true
-  16 │ Asu001   false   false     false   false      false   false      false   false   false      false   true      true      true
+16×18 DataFrame
+ Row │ taxa    Adi001  Smi165  Age001  Aru001  Aru127  c_minus8  Ama018  Ama006  Ape001  Ape009  Aza135  H17    c ⋯
+     │ String  Bool    Bool    Bool    Bool    Bool    Bool      Bool    Bool    Bool    Bool    Bool    Bool   B ⋯
+─────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────
+   1 │ Adi001    true   false   false   false   false     false   false   false   false   false   false  false    ⋯
+   2 │ Smi165   false    true   false   false   false     false   false   false   false   false   false  false
+   3 │ Age001   false   false    true   false   false     false   false   false   false   false   false  false
+   4 │ Aru001   false   false   false    true   false      true   false   false   false   false   false  false
+   5 │ Aru127   false   false   false   false    true      true   false   false   false   false   false  false    ⋯
+   6 │ Ama018   false   false   false   false   false     false    true   false   false   false   false  false
+   7 │ Ama006   false   false   false   false   false     false   false    true   false   false   false  false
+   8 │ Aza037   false   false   false   false   false     false   false   false   false   false   false  false
+   9 │ Ape001   false   false   false   false   false     false   false   false    true   false   false  false    ⋯
+  10 │ Ape009   false   false   false   false   false     false   false   false   false    true   false  false
+  11 │ Aza135   false   false   false   false   false     false   false   false   false   false    true  false
+  12 │ Asu001   false   false   false   false   false     false   false   false   false   false   false   true
+  13 │ Aga002   false   false   false   false   false     false   false   false   false   false   false   true    ⋯
+  14 │ Aga001   false   false   false   false   false     false   false   false   false   false   false   true
+  15 │ Adi003   false   false   false   false   false     false   false   false   false   false   false  false
+  16 │ Adi002   false   false   false   false   false     false   false   false   false   false   false  false
 ```
 
 Or specifically:
 
 ```
-julia> BSc[!,:taxa][BSc[!,:c_minus10]]
-6-element Vector{String}:
- "Ama018"
- "Ama006"
- "Aza037"
- "Ape001"
- "Ape009"
- "Aza135"
+julia> BSc[!,:taxa][BSc[!,:c_minus8]]
+2-element Vector{String}:
+ "Aru001"
+ "Aru127"
 ```
 
-If we look at the estimated network again, this clade represents the major sister clade:
+We can look at the estimated network again to find this clade:
 
 <div style="text-align:center"><img src="../images/net1-snaq.png" width="750"/></div>
 
 and the hybrid clade is:
 
 ```julia
-julia> BSc[!,:taxa][BSc[!,:H21]]
+julia> BSc[!,:taxa][BSc[!,:H17]]
 3-element Vector{String}:
+ "Asu001"
  "Aga002"
  "Aga001"
- "Asu001"
 ```
 
 We can also quantity the proportion of the times that the same hybridization event (same hybrid node with same major and minor hybrid edges) appear in the bootstrap networks.
 
 ```julia
-plot(net1, :R, nodeLabel=BSn[!,[:hybridnode,:BS_hybrid_samesisters]]);
+plot(net1, nodelabel=BSn[!,[:hybridnode,:BS_hybrid_samesisters]]);
 ```
 which in this case (because we did not do enough replicates or enough number of runs) is zero:
 
@@ -374,7 +386,7 @@ which in this case (because we did not do enough replicates or enough number of 
 We can also plot the bootstrap support for hybrid clades, regardless of their sisters. Here, it is shown on the parent edge of each node with positive hybrid support:
 
 ```julia
-plot(net1, :R, edgeLabel=BSn[BSn[!,:BS_hybrid].>0, [:edge,:BS_hybrid]]);
+plot(net1, edgelabel=BSn[BSn[!,:BS_hybrid].>0, [:edge,:BS_hybrid]]);
 ```
 
 <div style="text-align:center"><img src="../images/net1-bsn2.png" width="750"/></div>
