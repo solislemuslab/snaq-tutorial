@@ -114,6 +114,11 @@ The files `net1_snaq.log` and `net1_snaq.err` contain information about the runs
 
 ### 4. Plot the estimated network
 
+If your snaq process has not finished, and you want to continue with the tutorial, you can read the output file with:
+```julia
+net1 = readnewick("net1_snaq.out") 
+```
+
 Recall that the produced network is semi-directed, not rooted, so we need to root at the outgroup:
 ```julia
 rootatnode!(net1, "Smi165")
