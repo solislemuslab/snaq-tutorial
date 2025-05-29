@@ -148,7 +148,7 @@ If you are using your own data, simply create a folder with your data.
 Login to your particular virtual machine (VM) using the IP address on the sticker attached to the back of your name tag. If, for example, your IP address was 123.456.789.321, you would type the following into the terminal on your local computer (i.e. your laptop) and press the enter key:
 
 ```bash
-ssh moleuser@123.456.789.321
+ssh -X moleuser@123.456.789.321
 ```
 
 After login, you want to copy the `phylo-networks` in your home directory:

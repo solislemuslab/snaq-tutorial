@@ -67,7 +67,7 @@ R"points"(x=res[13][leaves,:x] .+0.1, y=res[13][leaves,:y], pch=16, col=traitcol
 R"legend"(x=1, y=7, legend=["pigmented","white"], pch=16, col=["purple","grey"],
           title="Flower", bty="n",var"title.adj"=0);
 # next: add to gene flow edge the proportion γ of genes affected
-hi = findfirst([!e.isMajor for e in net1.edge]) # 6 : "h"ybrid "i"ndex: index of gene flow edge (minor hybrid) in net: horizontal segment
+hi = findfirst([!e.ismajor for e in net1.edge]) # 6 : "h"ybrid "i"ndex: index of gene flow edge (minor hybrid) in net: horizontal segment
 R"text"(res[14][hi,:x]-0.3, res[14][hi,:y]-0.1, res[14][hi,:gam], col="deepskyblue", cex=0.75); # add the γ value
 ```
 

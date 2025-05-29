@@ -112,7 +112,7 @@ This `.networks` file exists so that you can check if a different placement of t
 
 The files `net1_snaq.log` and `net1_snaq.err` contain information about the runs and possible errors, and are only useful if you get an error from SNaQ and want to report it as a [GitHub issue](https://github.com/JuliaPhylo/SNaQ.jl/issues).
 
-### 4. Plot the estimated network
+### 5. Plot the estimated network
 
 If your snaq process has not finished, and you want to continue with the tutorial, you can read the output file with:
 ```julia
@@ -139,6 +139,7 @@ If a plot window didn't pop up, an alternative is to save the plot
 as a pdf and open it outside of julia:
 
 ```julia
+using RCall
 R"pdf"("plot-net1.pdf", width=3, height=3);
 plot(net1, :R);
 R"dev.off()";
