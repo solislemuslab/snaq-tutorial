@@ -503,31 +503,25 @@ concordance factors which will be the input for SNaQ.
 {: .note }
 We use BUCKy to account for gene tree estimation error, but we could skip this step and use gene trees directly as input in SNaQ as described in the [PhyloUtilities website](https://juliaphylo.github.io/PhyloUtilities/notebooks/Gene-Trees-RAxML.html).
 
-# 3. Estimating a population tree with Quartet MaxCut
+# 3. Estimating a population tree with Tree-QMC
 
 The optimization algorithm within SNaQ is complex, so a good starting point to help the search in network space would improve the accuracy and running time.
 
-We will use Quartet MaxCut (QMC) to estimate a starting population tree because the input data for QMC is the same table of concordance factors.
+We will use Tree-QMC to estimate a starting population tree because the input data for QMC is the same table of concordance factors.
+
+Because the CF table has the credible intervals, and we need a table with the following columns:
+```
+t1,t2,t3,t4,CF12_34,CF13_24,CF14_23,ngenes
+```
+
+So, we can extract those columns from `nexus.CFs.csv` with:
 
 ```
-$ ../../PhyloUtilities/scripts/get-pop-tree.pl bucky-output/nexus.CFs.csv
+cut -d',' -f1-5,8,11,14 bucky-output/nexus.CFs.csv > nexus.CFs-treeqmc.csv
+```
 
-Script was called as follows:
-perl get-pop-tree.pl bucky-output/nexus.CFs.csv
-
-Parsing major resolution of each 4-taxon set... done.
-Running Quartet Max Cut...
-
-
-Quartet MaxCut version 2.10 by Sagi Snir, University of Haifa
-
-quartet file is nexus.QMC.txt, 
-
-Number of quartets is 1820, max element 16
-
-Number of quartets read: 1820, max ele 16
-
-Quartet Max Cut complete, tree located in 'nexus.QMC.tre'.
+```
+$ tree-qmc -i nexus.CFs-treeqmc.csv --quartets -o nexus.QMC.tre
 ```
 
 We have a new file `nexus.QMC.tre` with our QMC tree.

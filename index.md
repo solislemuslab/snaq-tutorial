@@ -13,7 +13,7 @@ This website has an alternative tutorial for SNaQ to the one in the [PhyloUtilit
 [Version 1.0](https://github.com/solislemuslab/snaq-tutorial/tree/v1.0) of this tutorial was taught as part of the workshop in the Kew Royal Botanical Gardens: [Methodological Advances in Reticulate Evolution](https://gtiley.github.io/RBG-Networks/about/) (November 2023) co-organized with George Tiley, Ziheng Yang and Tomas Flouri.
 
 {: .highlight }
-The current version of this tutorial will be taught at the Molecular Evolution Workshop (MOLE) in the Marine Biology Lab at Woods Hole, MA (June 2025).
+The current version of this tutorial has been taught at the Molecular Evolution Workshop (MOLE) in the Marine Biology Lab at Woods Hole, MA (May 2025 and May 2026).
 
 
 ## Learning outcomes

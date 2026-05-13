@@ -90,6 +90,7 @@ Note that the versions installed within the Docker are Julia v1.9.2 and PhyloNet
 
 - Download [BUCKy](http://pages.stat.wisc.edu/~ane/bucky/index.html)
 - Download [MrBayes](http://nbisweden.github.io/MrBayes/)
+- Download [Tree-QMC](https://github.com/molloy-lab/TREE-QMC)
 - Download [Julia](https://julialang.org) and
   follow instructions to install julia
 - Install the necessary packages: open julia then type
@@ -158,7 +159,7 @@ cp -r moledata/phylo-networks ./
 cd phylo-networks
 ```
 
-We will *not* cover an alternative [RAxML+ASTRAL pipeline](https://juliaphylo.github.io/PhyloUtilities/notebooks/Gene-Trees-RAxML.html) (which you could cover outside the workshop).
+We will *not* cover the alternative [RAxML+ASTRAL pipeline](https://juliaphylo.github.io/PhyloUtilities/notebooks/Gene-Trees-RAxML.html) (which you could cover outside the workshop).
 
 
 ## For participants in the RBG workshop

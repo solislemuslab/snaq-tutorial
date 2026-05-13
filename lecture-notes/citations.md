@@ -55,18 +55,19 @@ If you use the TICR pipeline, PhyloNetworks and SNaQ for your work, please cite 
 }
 ```
 
-[Snir, S., and Satish R. (2012)](https://www.sciencedirect.com/science/article/pii/S1055790311003101?casa_token=InAaFNFYm9wAAAAA:Jlan_HCQqNfRQ4NU3Zg1Ghzp99sJbbtuZCmNw9j9ZFAgTSHVbfomLp1ipWcVeoCTdoi18_AjAA). "Quartet MaxCut: a fast algorithm for amalgamating quartet trees." Molecular phylogenetics and evolution 62.1: 1-8.
+[Han and Molloy, 2023](https://pmc.ncbi.nlm.nih.gov/articles/PMC10538498/). Improving quartet graph construction for scalable
+and accurate species tree estimation from gene trees, Genome Res,
+http:doi.org/10.1101/gr.277629.122
 
 ```
-@article{snir2012quartet,
-  title={Quartet MaxCut: a fast algorithm for amalgamating quartet trees},
-  author={Snir, Sagi and Rao, Satish},
-  journal={Molecular phylogenetics and evolution},
-  volume={62},
-  number={1},
-  pages={1--8},
-  year={2012},
-  publisher={Elsevier}
+@article{han2023improving,
+  title={Improving quartet graph construction for scalable and accurate species tree estimation from gene trees},
+  author={Han, Yunheng and Molloy, Erin K},
+  journal={Genome Research},
+  volume={33},
+  number={7},
+  pages={1042},
+  year={2023}
 }
 ```
 
