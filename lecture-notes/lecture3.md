@@ -14,7 +14,7 @@ You need to write a MrBayes block with the parameters for MrBayes.
 Here, we provide a MrBayes block in [`mbblock.txt`](https://github.com/JuliaPhylo/PhyloUtilities/blob/main/scripts/mbblock.txt) from the [TICR repo](https://github.com/nstenz/TICR):
 
 ```
-$ cd TICR/example
+$ cd PhyloUtilities/scripts
 $ cat mbblock.txt
 begin mrbayes;
 	set nowarnings=yes;
@@ -470,7 +470,7 @@ We are using MrBayes here, but we could use any method to estimate gene trees as
 We now run BUCKy to estimate the concordance factors from the posterior distributions of gene trees from MrBayes. This script will run BUCKy on every 4-taxon subset (1820 in this case for 16 taxa). Note that this analysis will take ~1 hour on a single laptop.
 
 ```
-$ ../../TICR/scripts/bucky.pl mb-output/nexus.mb.tar -o bucky-output
+$ ../../PhyloUtilities/scripts/bucky.pl mb-output/nexus.mb.tar -o bucky-output
 
 Checking for BUCKy version >= 1.4.4...
   BUCKy version: 1.4.4.
@@ -519,6 +519,15 @@ So, we can extract those columns from `nexus.CFs.csv` with:
 ```
 cut -d',' -f1-5,8,11,14 bucky-output/nexus.CFs.csv > nexus.CFs-treeqmc.csv
 ```
+If you did not have time to run BUCKy, there is a `nexus.CFs.csv` file in `snaq-tutorial/analysis`.
+
+Note that we need to change the column names to match what Tree-QMC needs:
+
+```
+sed -i '1s/.*/t1,t2,t3,t4,CF12_34,CF13_24,CF14_23,ngenes/' nexus.CFs-treeqmc.csv
+```
+
+Now we can run Tree-QMC:
 
 ```
 $ tree-qmc -i nexus.CFs-treeqmc.csv --quartets -o nexus.QMC.tre
