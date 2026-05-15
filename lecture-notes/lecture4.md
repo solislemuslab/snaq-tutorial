@@ -140,7 +140,7 @@ as a pdf and open it outside of julia:
 
 ```julia
 using RCall
-R"pdf"("plot-net1.pdf", width=3, height=3);
+R"pdf"("plot-net1.pdf", width=6, height=6);
 plot(net1);
 R"dev.off()";
 ```
