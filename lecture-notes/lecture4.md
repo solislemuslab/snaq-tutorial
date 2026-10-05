@@ -10,7 +10,7 @@ To run SNaQ, you need
 - data extracted from sequence alignments:
   - a list of estimated unrooted gene trees, or
   - a table of concordance factors (CF) (e.g. from BUCKy)
-- a starting topology (e.g. from Quartet MaxCut or ASTRAL, or RAxML tree from a single gene...)
+- a starting topology (e.g. from TreeQMC or ASTRAL, or RAxML tree from a single gene...)
 
 In the `analysis` folder, we have:
 - starting topology in `nexus.QMC.tre`
@@ -22,8 +22,6 @@ We move into the `analysis` folder and start a `julia` session:
 cd analysis
 julia
 ```
-
-Note that we do not need to run this inside the Docker container anymore. We can run this locally as long as Julia is installed.
 
 Loading the Julia packages in Julia:
 ```julia

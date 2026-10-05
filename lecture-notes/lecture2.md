@@ -30,7 +30,7 @@ We have a julia script to convert FASTA to NEXUS in the repository ([convertFast
 We need to compress the nexus files into a tar file:
 
 ```
-pwd ## project directory or scratch if using docker
+pwd ## project directory 
 cd snaq-tutorial/data/nexus-alignments
 tar czf nexus.tar.gz *.nex
 ```

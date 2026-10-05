@@ -34,11 +34,11 @@ Make sure to increase the number of generations (`ngen`) and to modify the other
 
 We are ready to analyze all loci with MrBayes.
 
-Recall that the main working directory (`scratch` or `my-analysis`) has the structure:
+Recall that the main working directory (`my-analysis`) has the structure:
 
-- `scratch` (or `my-analysis`)
+- `my-analysis`
     - `snaq-tutorial` (with the  new `analysis` folder)
-    -  `PhyloUtilities` (with the scripts)
+    - `PhyloUtilities` (with the scripts)
 
 We want to be in the folder with the data:
 
@@ -549,25 +549,3 @@ We note that there is an alternative pipeline in which estimated gene trees are 
 # TICR goodness of fit test
 
 As part of the TICR pipeline, we can test whether a tree is a good enough fit for the gene trees. More information about this test can be found in the [PhyloUtilities website](https://juliaphylo.github.io/PhyloUtilities/notebooks/TICR-test-tree-versus-network.html).
-
-
-# Moving files out of the Docker container into local machine
-
-For those running the commands in a Docker container, we need to bring back these output files into your local machine.
-
-In your local machine (not inside the Docker container), type `docker ps` to get the Contained ID:
-```
-% docker ps
-CONTAINER ID   IMAGE                      COMMAND       CREATED        STATUS        PORTS     NAMES
-f9331b6cad1a   solislemus/ticr-docker:1   "/bin/bash"   18 hours ago   Up 18 hours             mystifying_banach
-```
-
-We are going to copy only the csv table and the starting tree with the command `docker cp containerID:/path/to/find/files /path/to/put/copy`.
-Recall that you need to be outside of the Docker. We will copy these files inside `snaq-tutorial/analysis`
-```
-pwd ## snaq-tutorial/analysis
-docker cp f9331b6cad1a:/scratch/snaq-tutorial/analysis/nexus.QMC.tre .
-docker cp f9331b6cad1a:/scratch/snaq-tutorial/analysis/bucky-output/nexus.CFs.csv .
-```
-
-Once you exit the Docker container, it does not disappear (unless you ran it with the `rm` option which we did not). So, you can always log back into the Docker if you know the container ID. More information, see [here](https://stackoverflow.com/questions/28574433/do-docker-containers-retain-file-changes) or in the [Docker tutorial](https://www.docker.com/101-tutorial/).
