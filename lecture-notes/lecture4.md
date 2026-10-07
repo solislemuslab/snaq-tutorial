@@ -66,12 +66,13 @@ optimization of topology, BL and inheritance probabilities in SNaQ.jl using:
  max number of failed proposals = 75, liktolAbs = 0.0001.
 rootname for files: net1_snaq
 BEGIN: 1 runs on starting tree (Adi003,Adi002,(Adi001,((Smi165,Age001):0.11282763783172885,((Aru001,Aru127):1.8895892722315206,(((((Ama018,Ama006):0.635979116918197,Aza037):0.2064967739309278,(Ape001,Ape009):0.7567729870351637):0.17709162771363504,Aza135):1.3242277867359862,((Aga002,Aga001):1.1662225201998988,Asu001):1.33643060185584):0.10642736789559729):0.45657761568828575):2.424105745425032):0.1638513742450063);
-2025-05-20 15:51:6.718
-seed: 456 for run 1, 2025-05-20 15:51:8.268
+2026-10-05 11:54:38.741
+seed: 456 for run 1, 2026-10-05 11:54:40.551
 best network and networks with different hybrid/gene flow directions printed to .networks file
 
 MaxNet is ((Adi001,(((Smi165,Age001):0.10909139515055954,((Aru001,Aru127):1.783553809432207,(((((Ama018,Ama006):0.6686980253651718,Aza037):0.19099507776876928,(Ape001,Ape009):0.754921262227867):0.15053133922303902,Aza135):1.1427622517130929,((Asu001,(Aga002,Aga001):0.9081531659227717):0.48236561520817717)#H17:2.0594381934607306::0.8210853726908922):0.18471450412843127):0.5158573560102714):0.22659449745358853,#H17:0.697544251960922::0.17891462730910784):2.1586763301439107):0.1426954054706382,Adi003,Adi002); 
-with -loglik 815.1786591571492
+with -loglik 815.1786591571492 
+from run number 1
 HybridNetwork, Semidirected Network
 32 edges
 32 nodes: 16 tips, 1 hybrid nodes, 15 internal tree nodes.
@@ -88,14 +89,16 @@ point to estimate the best network at `h`.
 
 ### 4. Overview of the output files
 
-The estimated network is in the `net1_snaq.out` file which also has the running time: 2082.5 seconds (~35 minutes) in my computer:
+The estimated network is in the `net1_snaq.out` file which also has the running time: 1976.69 seconds (~32 minutes) in my computer:
 
 ```
 % less analysis/net1_snaq.out 
 
-((Adi001,(((Smi165,Age001):0.10909139515055954,((Aru001,Aru127):1.783553809432207,(((((Ama018,Ama006):0.6686980253651718,Aza037):0.19099507776876928,(Ape001,Ape009):0.754921262227867):0.15053133922303902,Aza135):1.1427622517130929,((Asu001,(Aga002,Aga001):0.9081531659227717):0.48236561520817717)#H17:2.0594381934607306::0.8210853726908922):0.18471450412843127):0.5158573560102714):0.22659449745358853,#H17:0.697544251960922::0.17891462730910784):2.1586763301439107):0.1426954054706382,Adi003,Adi002); -Ploglik = 815.1786591571492
- Dendroscope: ((Adi001,(((Smi165,Age001):0.10909139515055954,((Aru001,Aru127):1.783553809432207,(((((Ama018,Ama006):0.6686980253651718,Aza037):0.19099507776876928,(Ape001,Ape009):0.754921262227867):0.15053133922303902,Aza135):1.1427622517130929,((Asu001,(Aga002,Aga001):0.9081531659227717):0.48236561520817717)#H17:2.0594381934607306):0.18471450412843127):0.5158573560102714):0.22659449745358853,#H17:0.697544251960922):2.1586763301439107):0.1426954054706382,Adi003,Adi002);
- Elapsed time: 2082.5 seconds, 1 attempted runs
+((Adi001,(((Smi165,Age001):0.10909139515055954,((Aru001,Aru127):1.78355380943220
+7,(((((Ama018,Ama006):0.6686980253651718,Aza037):0.19099507776876928,(Ape001,Ape
+009):0.754921262227867):0.15053133922303902,Aza135):1.1427622517130929,((Asu001,(Aga002,Aga001):0.9081531659227717):0.48236561520817717)#H17:2.0594381934607306::0.8210853726908922):0.18471450412843127):0.5158573560102714):0.22659449745358853,#H17:0.697544251960922::0.17891462730910784):2.1586763301439107):0.1426954054706382,Adi003,Adi002); -Ploglik = 815.1786591571492
+Dendroscope: ((Adi001,(((Smi165,Age001):0.10909139515055954,((Aru001,Aru127):1.783553809432207,(((((Ama018,Ama006):0.6686980253651718,Aza037):0.19099507776876928,(Ape001,Ape009):0.754921262227867):0.15053133922303902,Aza135):1.1427622517130929,((Asu001,(Aga002,Aga001):0.9081531659227717):0.48236561520817717)#H17:2.0594381934607306):0.18471450412843127):0.5158573560102714):0.22659449745358853,#H17:0.697544251960922):2.1586763301439107):0.1426954054706382,Adi003,Adi002);
+Elapsed time: 1976.69 seconds, 1 attempted runs
 -------
 List of estimated networks for all runs (sorted by log-pseudolik; the smaller, the better):
  ((Adi001,(((Smi165,Age001):0.10909139515055954,((Aru001,Aru127):1.783553809432207,(((((Ama018,Ama006):0.6686980253651718,Aza037):0.19099507776876928,(Ape001,Ape009):0.754921262227867):0.15053133922303902,Aza135):1.1427622517130929,((Asu001,(Aga002,Aga001):0.9081531659227717):0.48236561520817717)#H17:2.0594381934607306::0.8210853726908922):0.18471450412843127):0.5158573560102714):0.22659449745358853,#H17:0.697544251960922::0.17891462730910784):2.1586763301439107):0.1426954054706382,Adi003,Adi002);, with -loglik 815.1786591571492
@@ -150,6 +153,8 @@ SNaQ can infer hybridizations with extinct or unsampled taxa (ghost lineages). T
 
 # Bootstrapping
 
+This analysis takes too long for the workshop, but below are the instructions to run bootstrap analysis with SNaQ. For the workshop, people can skip ahead to the bootstrap summary section.
+
 You need as input:
 
 - data from sequence alignment that capture uncertainty:
@@ -162,7 +167,11 @@ You need as input:
 We will focus on the case of CF credibility intervals:
 
 ```julia
-using CSV, DataFrames
+using Distributed
+addprocs(6)
+
+@everywhere using PhyloNetworks, SNaQ
+@everywhere using CSV, DataFrames
 buckyDat = CSV.read("nexus.CFs.csv", DataFrame) # names like: CF12_34, CF12_34_lo etc.
 ```
 
@@ -182,20 +191,28 @@ buckyDat2 = rename(buckyDat, ["taxon1", "taxon2", "taxon3", "taxon4",
  "ngenes"]) # rename columns
 ```
 
-## 2. Running bootstrap
+And if the Julia session had been closed, you can read again the starting topologies:
+
 ```julia
-bootnet = bootsnaq(tre, buckyDat2, hmax=1, nrep=10, runs=1,
-                   filename="bootsnaq1", ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4)
+tre = readnewick("nexus.QMC.tre")
+net1 = readnewick("net1_snaq.out")
+rootatnode!(net1, "Smi165")
+```
+
+## 2. Running bootstrap
+
+```julia
+bootnet = bootsnaq(tre, buckyDat2, hmax=1, nrep=30, runs=10,
+                   filename="bootsnaq1", seed=456, otherNet=net1, prcnet=0.3)
 ```
 
 The options we are using are:
 - `hmax=1`: maximum one hybridization event
-- `nrep=10`: number of bootstrap replicates; you want to do at least 30 for your real analysis
-- `runs=1`: number of runs for the optimization; set to 1 to make the run fast, but you want to do at least `runs=10` (which is the default) for your real analysis
+- `nrep=30`: number of bootstrap replicates
+- `runs=10`: number of runs for the optimization
 - `filename="bootsnaq1"`: rootname for the output files
 - `seed=456`: random seed to replicate the analysis
-- `ftolRel=1.0e-4, ftolAbs=1.0e-4,liktolAbs = 1.0e-4`: optimization tolerances chosen so that the run is fast. For your analyses, you do not need to specify these quantities and simply use the defaults 
-
+- `otherNet=net1` and `prcnet=0.3` specify another starting topology (`net1`) with 30% of the runs starting there
 
 ## 3. Bootstrap summary
 
@@ -297,71 +314,59 @@ plot(net1, edgelabel=BSe[!,[:edge,:BS_hybrid_edge]]);
 
 <div style="text-align:center"><img src="../images/net1-bse.png" width="750"/></div>
 
-In this case, there are 0% of bootstrap networks that have the major hybrid edge and 0% bootstrap networks that have the minor hybrid edge. Recall that we only ran 10 bootstrap replicates with 1 run each, so the runs have likely not converged in this case.
+In this case, there are 100% of bootstrap networks that have the major hybrid edge and 100% bootstrap networks that have the minor hybrid edge. 
 
-What do the remaining bootstrap networks have?
+If the percentage was not 100%, we can check what do the remaining bootstrap networks look like with `BSe`.
 
 ```julia
 julia> BSe
-16×8 DataFrame
- Row │ edge     hybrid_clade  hybrid   sister_clade  sister  BS_hybrid_edge  BS_major  BS_minor 
-     │ Int64?   String        Int64?   String        Int64?  Float64         Float64   Float64  
-─────┼──────────────────────────────────────────────────────────────────────────────────────────
-   1 │      24  H17                15  c_minus10        -10             0.0       0.0       0.0
-   2 │      28  H17                15  c_minus3          -3             0.0       0.0       0.0
-   3 │ missing  Ape001              9  Ape009            10            30.0      30.0       0.0
-   4 │ missing  Ape001              9  H17              -16            30.0       0.0      30.0
-   5 │ missing  c_34          missing  Aza135            11            20.0      20.0       0.0
-   6 │ missing  c_34          missing  Ape001             9            20.0       0.0      20.0
-   7 │ missing  Smi165              2  Age001             3            10.0      10.0       0.0
-   8 │ missing  Smi165              2  Ama006             7            10.0       0.0      10.0
-   9 │ missing  Adi002             17  Adi003            16            10.0      10.0       0.0
-  10 │ missing  Adi002             17  Aru001             4            10.0       0.0      10.0
-  11 │ missing  c_35          missing  c_minus8          -8            10.0      10.0       0.0
-  12 │ missing  c_35          missing  H17              -16            10.0       0.0      10.0
-  13 │ missing  c_minus2           -2  Adi001             1            10.0      10.0       0.0
-  14 │ missing  c_minus2           -2  Ama018             6            10.0       0.0      10.0
-  15 │ missing  Aru001              4  Aru127             5            10.0      10.0       0.0
-  16 │ missing  Aru001              4  Age001             3            10.0       0.0      10.0
+2×8 DataFrame
+ Row │ edge    hybrid_clade  hybrid  sister_clade  sister  BS_hybrid_edge  BS_major  BS_minor 
+     │ Int64?  String        Int64?  String        Int64?  Float64         Float64   Float64  
+─────┼────────────────────────────────────────────────────────────────────────────────────────
+   1 │     24  H17               15  c_minus10        -10           100.0     100.0       0.0
+   2 │     28  H17               15  c_minus3          -3           100.0       0.0     100.0
 ```
 
 We can understand the meaning of each column with `? hybridclade_support` in julia.
-We can see, for example, that in 30% of the bootstrap networks there is a hybrid edge 
-from `Ape001` to `Ape009`. Because `BS_major` is also 30, we conclude that this edge appears as the major hybrid edge in 30% of the bootstrap networks. We note that this edge does not appear in the estimated network (`net1`) since the column `edge` is `missing`.
 
-Sometimes, there is not a taxon name, but a clade, like `c_minus8`. The information of which clade this represents can be found in the `BSc` data frame:
+Sometimes, there is not a taxon name, but a clade, like `c_minus10`. The information of which clade this represents can be found in the `BSc` data frame:
 
 ```julia
 julia> BSc
-16×18 DataFrame
- Row │ taxa    Adi001  Smi165  Age001  Aru001  Aru127  c_minus8  Ama018  Ama006  Ape001  Ape009  Aza135  H17    c ⋯
-     │ String  Bool    Bool    Bool    Bool    Bool    Bool      Bool    Bool    Bool    Bool    Bool    Bool   B ⋯
-─────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────
-   1 │ Adi001    true   false   false   false   false     false   false   false   false   false   false  false    ⋯
-   2 │ Smi165   false    true   false   false   false     false   false   false   false   false   false  false
-   3 │ Age001   false   false    true   false   false     false   false   false   false   false   false  false
-   4 │ Aru001   false   false   false    true   false      true   false   false   false   false   false  false
-   5 │ Aru127   false   false   false   false    true      true   false   false   false   false   false  false    ⋯
-   6 │ Ama018   false   false   false   false   false     false    true   false   false   false   false  false
-   7 │ Ama006   false   false   false   false   false     false   false    true   false   false   false  false
-   8 │ Aza037   false   false   false   false   false     false   false   false   false   false   false  false
-   9 │ Ape001   false   false   false   false   false     false   false   false    true   false   false  false    ⋯
-  10 │ Ape009   false   false   false   false   false     false   false   false   false    true   false  false
-  11 │ Aza135   false   false   false   false   false     false   false   false   false   false    true  false
-  12 │ Asu001   false   false   false   false   false     false   false   false   false   false   false   true
-  13 │ Aga002   false   false   false   false   false     false   false   false   false   false   false   true    ⋯
-  14 │ Aga001   false   false   false   false   false     false   false   false   false   false   false   true
-  15 │ Adi003   false   false   false   false   false     false   false   false   false   false   false  false
-  16 │ Adi002   false   false   false   false   false     false   false   false   false   false   false  false
+16×4 DataFrame
+ Row │ taxa    c_minus10  H17    c_minus3 
+     │ String  Bool       Bool   Bool     
+─────┼────────────────────────────────────
+   1 │ Adi001      false  false      true
+   2 │ Smi165      false  false     false
+   3 │ Age001      false  false     false
+   4 │ Aru001      false  false     false
+   5 │ Aru127      false  false     false
+   6 │ Ama018       true  false     false
+   7 │ Ama006       true  false     false
+   8 │ Aza037       true  false     false
+   9 │ Ape001       true  false     false
+  10 │ Ape009       true  false     false
+  11 │ Aza135       true  false     false
+  12 │ Asu001      false   true     false
+  13 │ Aga002      false   true     false
+  14 │ Aga001      false   true     false
+  15 │ Adi003      false  false      true
+  16 │ Adi002      false  false      true
 ```
 
 Or specifically:
 
 ```
-julia> BSc[!,:taxa][BSc[!,:c_minus8]]
-2-element Vector{String}:
- "Aru001"
- "Aru127"
+julia> BSc[!,:taxa][BSc[!,:c_minus10]]
+6-element Vector{String}:
+ "Ama018"
+ "Ama006"
+ "Aza037"
+ "Ape001"
+ "Ape009"
+ "Aza135"
 ```
 
 We can look at the estimated network again to find this clade:
@@ -383,7 +388,7 @@ We can also quantity the proportion of the times that the same hybridization eve
 ```julia
 plot(net1, nodelabel=BSn[!,[:hybridnode,:BS_hybrid_samesisters]]);
 ```
-which in this case (because we did not do enough replicates or enough number of runs) is zero:
+which in this case it is 100%:
 
 <div style="text-align:center"><img src="../images/net1-bsn.png" width="750"/></div>
 
@@ -393,5 +398,5 @@ We can also plot the bootstrap support for hybrid clades, regardless of their si
 plot(net1, edgelabel=BSn[BSn[!,:BS_hybrid].>0, [:edge,:BS_hybrid]]);
 ```
 
-<div style="text-align:center"><img src="../images/net1-bsn2.png" width="750"/></div>
+<div style="text-align:center"><img src="../images/net1-bsn.png" width="750"/></div>
 
