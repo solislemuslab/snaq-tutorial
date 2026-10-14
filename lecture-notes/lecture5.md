@@ -62,13 +62,15 @@ res = plot(net1, tipoffset=0.3); # the results "res" provides point coordinates,
 o = [findfirst(isequal(tax), species) for tax in tipLabels(net1)] # 5,2,4,1,3,6: order to match taxa from "species" to tip labels
 isequal(species[o], tipLabels(net1)) # true :)
 traitcolor = map(x -> (x=="white" ? "grey" : "purple"), df.Flower_Color[o])
-leaves = res[13][!,:lea]
-R"points"(x=res[13][leaves,:x] .+0.1, y=res[13][leaves,:y], pch=16, col=traitcolor, cex=1.5); # adds grey & red points
+leaves = res.node_data[!, :lea]
+R"points"(x=res.node_data[leaves, :x] .+ 0.1, y=res.node_data[leaves, :y],
+          pch=16, col=traitcolor, cex=1.5); # adds grey & purple points
 R"legend"(x=1, y=7, legend=["pigmented","white"], pch=16, col=["purple","grey"],
           title="Flower", bty="n",var"title.adj"=0);
 # next: add to gene flow edge the proportion γ of genes affected
 hi = findfirst([!e.ismajor for e in net1.edge]) # 6 : "h"ybrid "i"ndex: index of gene flow edge (minor hybrid) in net: horizontal segment
-R"text"(res[14][hi,:x]-0.3, res[14][hi,:y]-0.1, res[14][hi,:gam], col="deepskyblue", cex=0.75); # add the γ value
+R"text"(res.edge_data[hi, :x] - 0.3, res.edge_data[hi, :y] - 0.1, res.edge_data[hi, :gam],
+        col="deepskyblue", cex=0.75); # add the γ value
 ```
 
 <div style="text-align:center"><img src="../images/net1-flower.png" width="550"/></div>
@@ -161,3 +163,41 @@ plot(s1.net, shownodenumber=true, shownodelabel=true, tipoffset=0.2);
 ```
 
 <div style="text-align:center"><img src="../images/net1-ancestral-nodes.png" width="550"/></div>
+
+You can finally create a network with pie charts on internal nodes based on the estimated probability of each ancestral state.
+
+```julia
+asr = ancestralreconstruction(s1)
+net = s1.net
+states = names(asr)[3:end]                                # ["white", "pigmented"]
+cols = [s == "white" ? "grey" : "purple" for s in states] # same colors as the tip points
+
+# R helper: one pie at (x, y), corrected for the plot's aspect ratio so it stays round
+R"""
+nodepie <- function(x, y, p, col, r = 0.25) {
+  usr <- par("usr"); pin <- par("pin")
+  ymult <- (diff(usr[3:4]) / diff(usr[1:2])) * (pin[1] / pin[2])
+  a <- 2 * pi * c(0, cumsum(p / sum(p)))
+  for (k in seq_along(p)) {
+    if (p[k] <= 0) next
+    t <- seq(a[k], a[k + 1], length.out = max(2, ceiling(100 * p[k])))
+    polygon(c(x, x + r * cos(t)), c(y, y + r * ymult * sin(t)), col = col[k], border = NA)
+  }
+  t <- seq(0, 2 * pi, length.out = 100)
+  polygon(x + r * cos(t), y + r * ymult * sin(t), border = "black")
+}
+"""
+
+R"par"(mar=[0,0,0,0]);
+res = plot(net, tipoffset=0.3);
+
+for (i, n) in enumerate(net.node)
+    row = findfirst(==(n.number), asr.nodenumber)
+    p = Vector{Float64}(asr[row, states])
+    R"nodepie"(res.node_x[i], res.node_y[i], p, cols);
+end
+
+R"legend"("topleft", legend=states, pch=16, col=cols, title="Flower", bty="n");
+```
+
+<div style="text-align:center"><img src="../images/net1-ancestral-nodes-pies.png" width="550"/></div>
